@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bottom_menu_State"
+        android:title="@string/state"
+        android:checkable="true"
+        android:icon="@drawable/ic_state_selector"/>
+
+    <item android:id="@+id/bottom_menu_selected"
+        android:title="@string/selected_lessons"
+        android:checkable="true"
+        android:icon="@drawable/ic_selected_selector"/>
+
+    <item android:id="@+id/bottom_menu_recommendation"
+        android:title="@string/recommended_lessons"
+        android:checkable="true"
+        android:icon="@drawable/ic_recommendation_selector"/>
+
+</menu>

@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    //main theme
+    <style name="Base.Theme.CourseSelectionGuide" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:direction">right_to_left</item>
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorSecondaryVariant">@color/light_orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="fontFamily">@font/iran_sans_regular</item>
+    </style>
+
+    //bottom navigation theme
+    <style name="bottom_navigation_style" parent="Theme.Material3.DayNight.NoActionBar">
+        //container
+        <item name="colorSurface">@color/cyan</item>
+        //icon
+        <item name="colorOnSecondaryContainer">@color/orange</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
+        //label text
+        <item name="colorOnSurface">@color/orange</item>
+        //active indicator
+        <item name="colorSecondaryContainer">@color/white</item>
+    </style>
+
+    //toolbar theme
+    <style name="toolbar_style" parent="Theme.MaterialComponents">
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="fontFamily">@font/iran_sans_bold</item>
+    </style>
+
+    //options menu theme
+    <style name="options_menu_style" parent="Base.Theme.CourseSelectionGuide">
+        <item name="menuAlignmentMode">start</item>
+        <item name="background">@drawable/shape_rounded</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/light_black</item>
+    </style>
+
+    <style name="Theme.CourseSelectionGuide" parent="Base.Theme.CourseSelectionGuide" />
+</resources>

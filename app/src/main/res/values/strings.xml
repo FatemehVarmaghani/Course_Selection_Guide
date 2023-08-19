@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Course Selection Guide</string>
+    <string name="recommended_lessons">دروس پیشنهادی</string>
+    <string name="selected_lessons">دروس انتخاب شده</string>
+    <string name="state">وضعیت</string>
+    <string name="add_new_lesson">افزودن درس جدید</string>
+    <string name="clear_list">پاک کردن لیست</string>
+    <string name="theoretical_units_sum">جمع واحدهای نظری</string>
+    <string name="practical_units_sum">جمع واحدهای عملی</string>
+    <string name="all_units_sum">جمع کل واحدها</string>
+    <string name="add_recommended_to_selected">افزودن لیست به دروس انتخاب شده</string>
+    <string name="show_new_recommended_list">نمایش لیست جدید</string>
+</resources>
