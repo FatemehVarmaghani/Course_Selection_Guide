@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.adapter.AdapterLessons
+import com.example.courseselectionguide.data.SelectedLessons
 import com.example.courseselectionguide.databinding.FragmentRecommendationBinding
 
 class RecommendationFragment : Fragment() {
@@ -22,12 +26,10 @@ class RecommendationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         //inflating menu
         binding.toolbarRecommended.inflateMenu(R.menu.menu_recommended_fragment)
         //menu listener
         binding.toolbarRecommended.setOnMenuItemClickListener {
-
             when(it.itemId) {
                 R.id.add_recommended_to_selected -> {
                     //add current recommended list to selected and clear recommended list
@@ -39,9 +41,23 @@ class RecommendationFragment : Fragment() {
                 }
                 else -> false
             }
-
         }
-
+        //show lessons on recyclerView
+        val data = arrayListOf(
+            SelectedLessons(1,"ریاضی عمومی 1"),
+            SelectedLessons(2, "فارسی عمومی"),
+            SelectedLessons(3, "فارسی عمومی"),
+            SelectedLessons(4, "فارسی عمومی"),
+            SelectedLessons(5, "فارسی عمومی"),
+            SelectedLessons(6, "فارسی عمومی"),
+            SelectedLessons(7, "فارسی عمومی"),
+            SelectedLessons(8, "فارسی عمومی"),
+            SelectedLessons(9, "فارسی عمومی"),
+            SelectedLessons(10, "فارسی عمومی")
+        )
+        val lessonsAdapter = AdapterLessons(data)
+        binding.recyclerRecommendation.adapter = lessonsAdapter
+        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }
 
 }

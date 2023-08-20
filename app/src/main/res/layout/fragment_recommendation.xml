@@ -37,7 +37,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/shape_rounded"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="10dp">
@@ -54,8 +53,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text="دروس پیشنهادی برای ترم"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -64,8 +62,8 @@
                     android:layout_marginStart="2dp"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text=":"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textColor="?attr/colorSecondary"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -75,8 +73,7 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text="8"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -92,8 +89,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text="وضعیت شما در ترم پیش"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -102,8 +98,8 @@
                     android:layout_marginStart="2dp"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text=":"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textColor="?attr/colorSecondary"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -113,26 +109,33 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/iran_sans_regular"
                     android:text="معدل الف"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/light_gray" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
             android:text="لیست دروس پیشنهادی"
             android:textColor="@color/light_black"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_selected"
+            android:id="@+id/recycler_recommendation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

@@ -1,9 +1,9 @@
-package com.example.courseselectionguide
+package com.example.courseselectionguide.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.courseselectionguide.R
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
 import com.example.courseselectionguide.fragments.SelectedLessonsFragment
