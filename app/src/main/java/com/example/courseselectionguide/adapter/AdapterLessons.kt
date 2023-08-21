@@ -18,7 +18,7 @@ class AdapterLessons(private val itemList: ArrayList<SelectedLessons>) : Recycle
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderLessons {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_selected, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_lesson, parent, false)
         return ViewHolderLessons(view)
     }
 

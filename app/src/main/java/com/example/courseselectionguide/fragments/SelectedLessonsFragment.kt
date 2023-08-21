@@ -1,5 +1,6 @@
 package com.example.courseselectionguide.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.data.SelectedLessons
 import com.example.courseselectionguide.databinding.FragmentSelectedBinding
@@ -29,9 +31,8 @@ class SelectedLessonsFragment : Fragment() {
         binding.toolbarSelected.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.add_new_lesson -> {
-                    //add a new lesson to selected list
-                    //by opening the list of lessons which can be selected
-                    //depending on your state
+                    val intent = Intent(context, Activity2::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.clear_selected_list -> {
@@ -58,5 +59,4 @@ class SelectedLessonsFragment : Fragment() {
         binding.recyclerSelected.adapter = lessonsAdapter
         binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }
-
 }
