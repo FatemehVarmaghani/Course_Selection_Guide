@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,19 +45,23 @@ class SelectedLessonsFragment : Fragment() {
         }
         //show lessons on RecyclerView
         val data = arrayListOf(
-            SelectedLessons(1,"ریاضی عمومی 1"),
-            SelectedLessons(2, "فارسی عمومی"),
-            SelectedLessons(3, "فارسی عمومی"),
-            SelectedLessons(4, "فارسی عمومی"),
-            SelectedLessons(5, "فارسی عمومی"),
-            SelectedLessons(6, "فارسی عمومی"),
-            SelectedLessons(7, "فارسی عمومی"),
-            SelectedLessons(8, "فارسی عمومی"),
-            SelectedLessons(9, "فارسی عمومی"),
-            SelectedLessons(10, "فارسی عمومی")
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50)
         )
         val lessonsAdapter = AdapterLessons(data)
         binding.recyclerSelected.adapter = lessonsAdapter
         binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        //lesson info dialog
+        val alertDialog = DialogFragmentLessonDetail()
+        alertDialog.show(parentFragmentManager, "alert dialog")
+
     }
 }

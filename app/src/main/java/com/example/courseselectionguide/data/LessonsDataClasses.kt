@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
 )
 data class RemainedLessons(
     @PrimaryKey(autoGenerate = true)
-    val remainedLessonId: Int,
+    val remainedLessonId: Int? = null,
     // TODO: make this field unique
     val lessonId: Int
 )
@@ -35,7 +35,7 @@ data class RemainedLessons(
 )
 data class SelectedLessons(
     @PrimaryKey(autoGenerate = true)
-    val selectedLessonId: Int,
+    val selectedLessonId: Int? = null,
     val lessonId: Int
 )
 
@@ -51,7 +51,7 @@ data class SelectedLessons(
 )
 data class RecommendedLessons(
     @PrimaryKey(autoGenerate = true)
-    val recommendedLessonId: Int,
+    val recommendedLessonId: Int? = null,
     val lessonId: Int
 )
 
@@ -67,7 +67,7 @@ data class RecommendedLessons(
 )
 data class PassedLessons(
     @PrimaryKey(autoGenerate = true)
-    val passedLessonId: Int,
+    val passedLessonId: Int? = null,
     val lessonId: Int
 )
 
@@ -83,6 +83,6 @@ data class PassedLessons(
 )
 data class FailedLessons(
     @PrimaryKey(autoGenerate = true)
-    val failedLessonId: Int,
+    val failedLessonId: Int? = null,
     val lessonId: Int
 )

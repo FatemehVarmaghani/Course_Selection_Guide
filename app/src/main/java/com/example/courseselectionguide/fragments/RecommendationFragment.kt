@@ -44,16 +44,16 @@ class RecommendationFragment : Fragment() {
         }
         //show lessons on recyclerView
         val data = arrayListOf(
-            SelectedLessons(1,"ریاضی عمومی 1"),
-            SelectedLessons(2, "فارسی عمومی"),
-            SelectedLessons(3, "فارسی عمومی"),
-            SelectedLessons(4, "فارسی عمومی"),
-            SelectedLessons(5, "فارسی عمومی"),
-            SelectedLessons(6, "فارسی عمومی"),
-            SelectedLessons(7, "فارسی عمومی"),
-            SelectedLessons(8, "فارسی عمومی"),
-            SelectedLessons(9, "فارسی عمومی"),
-            SelectedLessons(10, "فارسی عمومی")
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50),
+            SelectedLessons(lessonId = 50)
         )
         val lessonsAdapter = AdapterLessons(data)
         binding.recyclerRecommendation.adapter = lessonsAdapter
