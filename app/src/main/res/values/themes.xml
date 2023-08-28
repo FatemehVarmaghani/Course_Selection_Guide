@@ -2,7 +2,6 @@
 
     //main theme
     <style name="Base.Theme.CourseSelectionGuide" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:direction">right_to_left</item>
         <item name="colorPrimary">@color/cyan</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/orange</item>
