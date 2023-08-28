@@ -13,7 +13,7 @@ class AdapterLessons(private val itemList: ArrayList<SelectedLessons>) : Recycle
         val lessonName = item.findViewById<TextView>(R.id.txt_selected_lesson_name)
         //onBindViewHolder's job
         fun onBindItemList(position: Int) {
-            lessonName.text = itemList[position].lessonName
+            lessonName.text = itemList[position].lessonId.toString()
         }
     }
 

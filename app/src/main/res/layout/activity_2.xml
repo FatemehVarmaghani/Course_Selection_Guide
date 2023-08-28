@@ -24,7 +24,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="4dp"
-        tools:listitem="@layout/card_manual"
+        tools:listitem="@layout/card_lesson"
         android:id="@+id/recycler_manual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
