@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="?attr/colorPrimary"
-            android:layoutDirection="rtl"
             android:popupTheme="@style/options_menu_style"
             android:theme="@style/toolbar_style"
             android:title="@string/recommended_lessons"

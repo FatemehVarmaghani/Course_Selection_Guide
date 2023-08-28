@@ -10,4 +10,8 @@
     <string name="all_units_sum">جمع کل واحدها</string>
     <string name="add_recommended_to_selected">افزودن لیست به دروس انتخاب شده</string>
     <string name="show_new_recommended_list">نمایش لیست جدید</string>
+    <string name="passed_lessons">دروس گذرانده</string>
+    <string name="failed_lessons">دروس رد/حذف‌شده</string>
+    <string name="remained_lessons">دروس باقی‌مانده</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
