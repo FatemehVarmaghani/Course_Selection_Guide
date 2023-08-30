@@ -25,7 +25,7 @@
 
     //toolbar theme
     <style name="toolbar_style" parent="Theme.MaterialComponents">
-        <item name="fontFamily">@font/iran_sans_regular</item>
+        <item name="fontFamily">@font/toolbar_font</item>
         <item name="colorPrimary">@color/cyan</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/cyan</item>

@@ -11,15 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_recommended"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="?attr/colorPrimary"
-            android:popupTheme="@style/options_menu_style"
             android:theme="@style/toolbar_style"
-            android:title="@string/recommended_lessons"
-            android:titleTextColor="?attr/colorOnPrimary" />
+            app:popupTheme="@style/options_menu_style"
+            app:title="@string/recommended_lessons"
+            app:titleTextColor="?attr/colorOnPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
