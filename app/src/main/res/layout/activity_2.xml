@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:theme="@style/toolbar_style"
-            app:popupTheme="@style/options_menu_style"
-            app:title="انتخاب دستی" />
+            app:popupTheme="@style/options_menu_style" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

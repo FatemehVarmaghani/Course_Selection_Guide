@@ -16,14 +16,20 @@ class Activity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = Activity2Binding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //action bar
+        val listTitle = "آزمایشی"
+        binding.toolbarManual.title = listTitle
         setSupportActionBar(binding.toolbarManual)
+
         //options menu listener
         binding.toolbarManual.setOnMenuItemClickListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.filter_lessons -> {
                     Toast.makeText(this, "filter done!", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 else -> false
             }
         }
@@ -43,7 +49,8 @@ class Activity2 : AppCompatActivity() {
         //recyclerView for lessons
         val adapter = AdapterLessons(data)
         binding.recyclerManual.adapter = adapter
-        binding.recyclerManual.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerManual.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

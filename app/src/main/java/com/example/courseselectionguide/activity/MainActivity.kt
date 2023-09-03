@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //transactions for main fragments
         starter()
         binding.mainBottomNavigation.setOnItemSelectedListener {
 
@@ -57,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.mainBottomNavigation.setOnItemReselectedListener { }
-
     }
 
     // to open State Fragment when the app is opened

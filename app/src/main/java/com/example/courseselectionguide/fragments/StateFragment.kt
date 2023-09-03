@@ -1,12 +1,15 @@
 package com.example.courseselectionguide.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.databinding.FragmentStateBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -21,7 +24,7 @@ class StateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStateBinding.inflate(inflater)
+        binding = FragmentStateBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,6 +55,19 @@ class StateFragment : Fragment() {
         }
         pieChart.animateY(1000)
         pieChart.invalidate()
+
+        //click on buttons
+        binding.btnGotoPassedLessons.setOnClickListener {
+            val intent = Intent(requireContext(), Activity2::class.java)
+            startActivity(intent)
+        }
+        binding.btnGotoFailedLessons.setOnClickListener {
+            val intent = Intent(requireContext(), Activity2::class.java)
+            startActivity(intent)
+        }
+        binding.btnChangeInfo.setOnClickListener {
+            Toast.makeText(requireContext(), "edit info", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
