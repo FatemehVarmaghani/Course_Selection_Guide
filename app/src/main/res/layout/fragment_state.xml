@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/passed_lessons"
+                android:text="@string/passed_units"
                 android:textSize="12sp" />
 
             <ImageView
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/failed_lessons"
+                android:text="@string/failed_units"
                 android:textSize="12sp" />
 
             <ImageView
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/remained_lessons"
+                android:text="@string/remained_units"
                 android:textSize="12sp" />
 
         </LinearLayout>

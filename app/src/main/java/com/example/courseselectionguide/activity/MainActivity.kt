@@ -1,5 +1,8 @@
 package com.example.courseselectionguide.activity
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +12,8 @@ import com.example.courseselectionguide.fragments.RecommendationFragment
 import com.example.courseselectionguide.fragments.SelectedLessonsFragment
 import com.example.courseselectionguide.fragments.StateFragment
 
+lateinit var sharedPref: SharedPreferences
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -17,6 +22,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //checking entry activity
+        sharedPref = this.getSharedPreferences("primitive_data", Context.MODE_PRIVATE)
+        val notFirstRun = sharedPref.getBoolean("data_entry_shown", false)
+        if (!notFirstRun) {
+            val intent = Intent(this, DataEntryActivity::class.java)
+            startActivity(intent)
+        }
 
         starter()
         binding.mainBottomNavigation.setOnItemSelectedListener {

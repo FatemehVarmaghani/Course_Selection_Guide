@@ -14,4 +14,7 @@
     <string name="failed_lessons">دروس رد/حذف‌شده</string>
     <string name="remained_lessons">دروس باقی‌مانده</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="passed_units">واحدهای گذرانده</string>
+    <string name="failed_units">واحدهای رد/حذف‌شده</string>
+    <string name="remained_units">واحدهای باقی‌مانده</string>
 </resources>
