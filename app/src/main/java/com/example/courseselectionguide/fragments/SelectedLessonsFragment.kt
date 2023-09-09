@@ -26,8 +26,10 @@ class SelectedLessonsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         //inflating menu
         binding.toolbarSelected.inflateMenu(R.menu.menu_selected_fragment)
+
         //menu listener
         binding.toolbarSelected.setOnMenuItemClickListener {
             when(it.itemId) {
@@ -43,25 +45,14 @@ class SelectedLessonsFragment : Fragment() {
                 else -> false
             }
         }
-        //show lessons on RecyclerView
-        val data = arrayListOf(
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50)
-        )
-        val lessonsAdapter = AdapterLessons(data)
-        binding.recyclerSelected.adapter = lessonsAdapter
-        binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+//        //show lessons on RecyclerView
+//        val lessonsAdapter = AdapterLessons(data)
+//        binding.recyclerSelected.adapter = lessonsAdapter
+//        binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
         //lesson info dialog
         val alertDialog = DialogFragmentLessonDetail()
         alertDialog.show(parentFragmentManager, "alert dialog")
-
     }
 }

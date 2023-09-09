@@ -26,8 +26,10 @@ class RecommendationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         //inflating menu
         binding.toolbarRecommended.inflateMenu(R.menu.menu_recommended_fragment)
+
         //menu listener
         binding.toolbarRecommended.setOnMenuItemClickListener {
             when(it.itemId) {
@@ -42,22 +44,11 @@ class RecommendationFragment : Fragment() {
                 else -> false
             }
         }
-        //show lessons on recyclerView
-        val data = arrayListOf(
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50),
-            SelectedLessons(lessonId = 50)
-        )
-        val lessonsAdapter = AdapterLessons(data)
-        binding.recyclerRecommendation.adapter = lessonsAdapter
-        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+//        //show lessons on recyclerView
+//        val lessonsAdapter = AdapterLessons(data)
+//        binding.recyclerRecommendation.adapter = lessonsAdapter
+//        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }
 
 }
