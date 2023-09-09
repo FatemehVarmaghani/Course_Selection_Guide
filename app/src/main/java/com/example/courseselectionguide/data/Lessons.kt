@@ -8,14 +8,16 @@ data class Lessons(
     @PrimaryKey(autoGenerate = true)
     val lessonId: Int? = null,
     val lessonName: String,
-    val theoreticalUnitNumber: Int? = null,
-    val practicalUnitNumber: Int? = null,
+    val theoreticalUnitNumber: Float,
+    val practicalUnitNumber: Float,
     val lessonTypeId: Int,
-    // true is for theoretical, false for practical
     val unitType: Boolean,
-    val lessonOrientationId: Int,
+    // true is for theoretical, false for practical
+    val lessonOrientationId: Int? = null,
     val neededPassedUnitsSum: Int? = null,
     val listOfPrerequisites: PrerequisitesList? = null,
     val listOfCorequisites: CorequisitesList? = null,
-    val recommendedSemester: Int
+    val recommendedSemester: Int,
+    val lessonState: Boolean? = null
+    // null for notTaken (remained), false for failed, true for passed
 )
