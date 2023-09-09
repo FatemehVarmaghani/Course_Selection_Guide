@@ -1,8 +1,6 @@
 package com.example.courseselectionguide.activity
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.NumberPicker
@@ -34,16 +32,16 @@ class DataEntryActivity : AppCompatActivity() {
         }
         binding.radioGroupFailedLesson.setOnCheckedChangeListener { _, checkedId ->
             val hasFailedValue = when (checkedId) {
-                R.id.radio_failed_lesson_yes -> true
-                R.id.radio_failed_lesson_no -> false
+                R.id.dialog_r_failed_lesson_yes -> true
+                R.id.dialog_r_failed_lesson_no -> false
                 else -> null
             }
             hasFailed = hasFailedValue
         }
         binding.radioGroupLastSemester.setOnCheckedChangeListener { _, checkedId ->
             val isSeniorValue = when (checkedId) {
-                R.id.radio_last_semester_yes -> true
-                R.id.radio_last_semester_no -> false
+                R.id.dialog_r_last_semester_yes -> true
+                R.id.dialog_r_last_semester_no -> false
                 else -> null
             }
             isSenior = isSeniorValue

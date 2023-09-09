@@ -66,7 +66,8 @@ class StateFragment : Fragment() {
             startActivity(intent)
         }
         binding.btnChangeInfo.setOnClickListener {
-            Toast.makeText(requireContext(), "edit info", Toast.LENGTH_SHORT).show()
+            val editInfoDialog = EditUserInfoDialog()
+            editInfoDialog.show(parentFragmentManager, null)
         }
     }
 
