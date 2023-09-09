@@ -9,7 +9,7 @@ import com.example.courseselectionguide.databinding.DialogFragmentLessonDetailBi
 class DialogFragmentLessonDetail: DialogFragment() {
     private lateinit var binding: DialogFragmentLessonDetailBinding
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogFragmentLessonDetailBinding.inflate(layoutInflater)
+        binding = DialogFragmentLessonDetailBinding.inflate(layoutInflater, null, false)
         val dialog = AlertDialog.Builder(context)
         return dialog.create()
     }
