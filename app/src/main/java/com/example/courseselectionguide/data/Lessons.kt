@@ -18,6 +18,5 @@ data class Lessons(
     val listOfPrerequisites: PrerequisitesList? = null,
     val listOfCorequisites: CorequisitesList? = null,
     val recommendedSemester: Int,
-    val lessonState: Boolean? = null
-    // null for notTaken (remained), false for failed, true for passed
+    val lessonState: Int? = null //it's nullable only for now... you can change it later
 )
