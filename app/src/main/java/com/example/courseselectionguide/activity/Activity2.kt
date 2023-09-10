@@ -3,21 +3,16 @@ package com.example.courseselectionguide.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.data.CorequisitesList
 import com.example.courseselectionguide.data.Lessons
 import com.example.courseselectionguide.data.PrerequisitesList
-import com.example.courseselectionguide.data.SelectedLessons
 import com.example.courseselectionguide.databinding.Activity2Binding
-import com.example.courseselectionguide.databinding.DialogFragmentLessonDetailBinding
-import com.example.courseselectionguide.fragments.DialogFragmentLessonDetail
-import com.example.courseselectionguide.fragments.EditUserInfoDialog
+import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
 
 class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents {
     private lateinit var binding: Activity2Binding
@@ -145,7 +140,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents {
 
     override fun onItemClicked(lesson: Lessons) {
         //lesson details
-        val lessonInfoDialogBinding = DialogFragmentLessonDetailBinding.inflate(layoutInflater)
+        val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
         lessonInfoDialogBinding.infoDialogLessonName.text = lesson.lessonName
         //you can change it later by the use of Room:
         lessonInfoDialogBinding.infoDialogLessonType.text = when(lesson.lessonTypeId) {
