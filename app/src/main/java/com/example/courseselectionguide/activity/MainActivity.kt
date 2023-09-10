@@ -7,9 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
-import com.example.courseselectionguide.data.CorequisitesList
 import com.example.courseselectionguide.data.Lessons
-import com.example.courseselectionguide.data.PrerequisitesList
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
 import com.example.courseselectionguide.fragments.SelectedLessonsFragment
@@ -29,8 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         //checking entry activity
         sharedPref = this.getSharedPreferences("primitive_data", Context.MODE_PRIVATE)
-        val notFirstRun = sharedPref.getBoolean("data_entry_shown", false)
-        if (!notFirstRun) {
+        val editor = sharedPref.edit()
+        val isFirstRun = sharedPref.getBoolean("first_run", true)
+        if (isFirstRun) {
+            editor.putBoolean("first_run", false)
+            editor.apply()
             val intent = Intent(this, DataEntryActivity::class.java)
             startActivity(intent)
         }
