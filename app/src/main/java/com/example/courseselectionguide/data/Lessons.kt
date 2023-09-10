@@ -11,8 +11,8 @@ data class Lessons(
     val theoreticalUnitNumber: Float,
     val practicalUnitNumber: Float,
     val lessonTypeId: Int,
-    val unitType: Boolean,
-    // true is for theoretical, false for practical
+    val unitType: Boolean? = null,
+    // true is for theoretical, false for practical, null for both (like pe)
     val lessonOrientationId: Int? = null,
     val neededPassedUnitsSum: Int? = null,
     val listOfPrerequisites: PrerequisitesList? = null,

@@ -11,6 +11,7 @@ class DialogFragmentLessonDetail: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFragmentLessonDetailBinding.inflate(layoutInflater, null, false)
         val dialog = AlertDialog.Builder(context)
+        dialog.setView(binding.root)
         return dialog.create()
     }
 }
