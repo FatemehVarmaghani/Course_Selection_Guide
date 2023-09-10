@@ -51,8 +51,5 @@ class SelectedLessonsFragment : Fragment() {
 //        binding.recyclerSelected.adapter = lessonsAdapter
 //        binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        //lesson info dialog
-        val alertDialog = DialogFragmentLessonDetail()
-        alertDialog.show(parentFragmentManager, "alert dialog")
     }
 }
