@@ -3,9 +3,10 @@ package com.example.courseselectionguide.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
@@ -130,7 +131,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         )
 
         //recyclerView for lessons
-        val adapter = AdapterLessons(dataList, this)
+        val adapter = AdapterLessons(this, dataList, this)
         binding.recyclerManual.adapter = adapter
         binding.recyclerManual.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -146,7 +147,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
         lessonInfoDialogBinding.infoDialogLessonName.text = lesson.lessonName
         //you can change it later by the use of Room:
-        lessonInfoDialogBinding.infoDialogLessonType.text = when(lesson.lessonTypeId) {
+        lessonInfoDialogBinding.infoDialogLessonType.text = when (lesson.lessonTypeId) {
             1 -> "عمومی اسلامی"
             2 -> "عمومی"
             3 -> "پایه"
@@ -169,13 +170,13 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 lesson.practicalUnitNumber.toInt().toString()
         }
         //checking pre and co requisites:
-        if(lesson.listOfPrerequisites == null) {
+        if (lesson.listOfPrerequisites == null) {
             lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
         } else {
             lessonInfoDialogBinding.infoDialogPrerequisites.text =
                 lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
         }
-        if(lesson.listOfCorequisites == null) {
+        if (lesson.listOfCorequisites == null) {
             lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
         } else {
             lessonInfoDialogBinding.infoDialogCorequisites.text =
@@ -188,8 +189,16 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked() {
-        Toast.makeText(this, "on options clicked", Toast.LENGTH_SHORT).show()
+    override fun onOptionsIconClicked(item: View, popupMenu: android.widget.PopupMenu) {
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.remove_lesson_from_list -> {
+                    //remove the lesson from list
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun sendFilterData(lessonTypeId: Int, unitTypeId: Int) {

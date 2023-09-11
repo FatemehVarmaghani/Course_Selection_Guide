@@ -41,6 +41,7 @@
             android:id="@+id/icon_option_lesson"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:clickable="true"
             android:src="@drawable/ic_options"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
