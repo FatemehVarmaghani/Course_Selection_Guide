@@ -1,9 +1,7 @@
 package com.example.courseselectionguide.fragments
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,20 +11,17 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
-import com.example.courseselectionguide.activity.DataEntryActivity
-import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.sharedPref
-import com.example.courseselectionguide.databinding.DialogEditUserInfoBinding
 import com.example.courseselectionguide.databinding.FragmentStateBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import java.lang.Exception
 
-class StateFragment : Fragment() {
+class StateFragment : Fragment(), EditDialog.EditInfoEvent {
     private lateinit var binding: FragmentStateBinding
-    private lateinit var dialogEditBinding: DialogEditUserInfoBinding
     private lateinit var pieChart: PieChart
 
     override fun onCreateView(
@@ -96,11 +91,26 @@ class StateFragment : Fragment() {
 
         //change user info
         binding.btnChangeInfo.setOnClickListener {
-            dialogEditBinding = DialogEditUserInfoBinding.inflate(layoutInflater)
-            val dialogEditInfo = AlertDialog.Builder(context)
-            dialogEditInfo.setView(dialogEditBinding.root)
-            dialogEditInfo.create().show()
+            //set user info to bundle and create dialog
+            val dialogEditInfo = EditDialog(this)
+            val bundle = Bundle()
+            bundle.putInt("current_semester", currentSemester)
+            bundle.putFloat("average", average)
+            bundle.putBoolean("has_failed", hasFailed)
+            bundle.putBoolean("is_Senior", isSenior)
+            dialogEditInfo.arguments = bundle
+            dialogEditInfo.show(parentFragmentManager, "")
+
         }
+    }
+
+    override fun sendUserInfo(
+        currentSemester: Int,
+        average: Float,
+        hasFailed: Boolean,
+        isSenior: Boolean
+    ) {
+        Toast.makeText(context, "sendUserInfo has worked!", Toast.LENGTH_SHORT).show()
     }
 
 }

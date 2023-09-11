@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_txt_current_semester"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ترم فعلی"
@@ -35,6 +36,7 @@
         tools:layout_editor_absoluteX="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_txt_average"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="معدل ترم قبل"

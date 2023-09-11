@@ -25,6 +25,7 @@ class DataEntryActivity : AppCompatActivity() {
         var average: Float?
         var isSenior: Boolean? = null
         var hasFailed: Boolean? = null
+
         //assign value to variables by income data except average
         currentSemester = numberPicker().value
         numberPicker().setOnValueChangedListener { _, _, newVal ->
