@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
@@ -13,8 +14,9 @@ import com.example.courseselectionguide.data.Lessons
 import com.example.courseselectionguide.data.PrerequisitesList
 import com.example.courseselectionguide.databinding.Activity2Binding
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
+import com.example.courseselectionguide.fragments.FilterDialog
 
-class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents {
+class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.FilterEvent {
     private lateinit var binding: Activity2Binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,8 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents {
         binding.toolbarManual.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.filter_lessons -> {
-                    Toast.makeText(this, "filter done!", Toast.LENGTH_SHORT).show()
+                    val filterDialog = FilterDialog(this)
+                    filterDialog.show(supportFragmentManager, "filter_fragment")
                     true
                 }
 
@@ -187,5 +190,9 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents {
 
     override fun onOptionsIconClicked() {
         Toast.makeText(this, "on options clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun sendFilterData(lessonTypeId: Int, unitTypeId: Int) {
+        //filter the data using these arguments
     }
 }
