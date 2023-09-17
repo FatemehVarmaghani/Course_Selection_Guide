@@ -16,11 +16,14 @@ interface BaseDao<T> {
 
     @Delete
     fun delete(vararg obj: T)
+
+    //to insert the whole table
+    @Insert
+    fun insertAll(list: ArrayList<T>)
 }
 
 @Dao
 interface LessonsDao : BaseDao<Lessons> {
-
     //for remained
     @Query("select * from Lessons where lessonState = 1")
     fun getRemainedList(): ArrayList<Lessons>

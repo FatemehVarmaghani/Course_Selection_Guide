@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.data.daos.LessonsDao
 import com.example.courseselectionguide.data.data_classes.Lessons
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
@@ -14,7 +16,8 @@ import com.example.courseselectionguide.fragments.SelectedLessonsFragment
 import com.example.courseselectionguide.fragments.StateFragment
 
 lateinit var sharedPref: SharedPreferences
-lateinit var dataList: ArrayList<Lessons>
+lateinit var lessonsList: ArrayList<Lessons>
+lateinit var lessonsDao: LessonsDao
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         //checking entry activity
         sharedPref = this.getSharedPreferences("primitive_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        val isFirstRun = sharedPref.getBoolean("first_run", true)
-        if (isFirstRun) {
-            editor.putBoolean("first_run", false)
-            editor.apply()
+        if (sharedPref.getBoolean("first_running", true)) {
+            firstRun()
             val intent = Intent(this, DataEntryActivity::class.java)
             startActivity(intent)
         }
@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.mainBottomNavigation.setOnItemReselectedListener { }
+    }
+
+    private fun firstRun() {
+        Toast.makeText(this, "first run done!", Toast.LENGTH_SHORT).show()
     }
 
     // to open State Fragment when the app is opened

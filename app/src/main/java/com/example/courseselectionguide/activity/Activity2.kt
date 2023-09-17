@@ -41,7 +41,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         }
 
         //data for recyclerView
-        dataList = arrayListOf(
+        val dataList = arrayListOf(
             Lessons(
                 lessonName = "ریاضی عمومی 1",
                 theoreticalUnitNumber = 3f,

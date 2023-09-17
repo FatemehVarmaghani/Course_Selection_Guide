@@ -77,6 +77,8 @@ class DataEntryActivity : AppCompatActivity() {
                             )
                             editor.apply()
                             //going to the main activity
+                            editor.putBoolean("first_running", false)
+                            editor.apply()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
