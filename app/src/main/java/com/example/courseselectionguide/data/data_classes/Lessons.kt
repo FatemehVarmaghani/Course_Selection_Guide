@@ -18,5 +18,5 @@ data class Lessons(
     val listOfPrerequisites: PrerequisitesList? = null,
     val listOfCorequisites: CorequisitesList? = null,
     val recommendedSemester: Int,
-    val lessonState: Int? = null //it's nullable only for now... you can change it later
+    val lessonState: Int
 )

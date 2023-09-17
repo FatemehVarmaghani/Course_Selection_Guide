@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
-import com.example.courseselectionguide.data.Lessons
+import com.example.courseselectionguide.data.data_classes.Lessons
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
 import com.example.courseselectionguide.fragments.SelectedLessonsFragment
