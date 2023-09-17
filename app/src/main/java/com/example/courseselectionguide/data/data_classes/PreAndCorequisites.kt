@@ -1,4 +1,4 @@
-package com.example.courseselectionguide.data
+package com.example.courseselectionguide.data.data_classes
 
 data class PrerequisitesList (
     val list: ArrayList<Int>
