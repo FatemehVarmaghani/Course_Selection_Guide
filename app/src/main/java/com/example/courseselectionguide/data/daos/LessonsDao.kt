@@ -5,7 +5,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.courseselectionguide.data.data_classes.LessonOrientation
+import com.example.courseselectionguide.data.data_classes.LessonState
+import com.example.courseselectionguide.data.data_classes.LessonType
 import com.example.courseselectionguide.data.data_classes.Lessons
+import com.example.courseselectionguide.data.data_classes.UserState
 
 interface BaseDao<T> {
     @Insert
@@ -69,3 +73,15 @@ interface LessonsDao : BaseDao<Lessons> {
     @Query("select orientationName from Lessons inner join LessonOrientation on Lessons.lessonOrientationId = LessonOrientation.orientationId where orientationId = :orientationId")
     fun getLessonOrientation(orientationId: Int): String
 }
+
+@Dao
+interface LessonStateDao : BaseDao<LessonState>
+
+@Dao
+interface LessonTypeDao : BaseDao<LessonType>
+
+@Dao
+interface LessonOrientationDao : BaseDao<LessonOrientation>
+
+@Dao
+interface UserStateDao : BaseDao<UserState>

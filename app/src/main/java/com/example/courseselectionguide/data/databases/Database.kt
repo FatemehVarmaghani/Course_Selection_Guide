@@ -26,6 +26,10 @@ abstract class LessonDatabase : RoomDatabase() {
 
     //dao
     abstract val lessonsDao: LessonsDao
+    abstract val lessonStateDao: LessonsDao
+    abstract val lessonTypeDao: LessonsDao
+    abstract val lessonOrientationDao: LessonsDao
+    abstract val userStateDao: LessonsDao
 
     companion object {
         private var database: LessonDatabase? = null

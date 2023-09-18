@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.adapter.AdapterLessons
+import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.data_classes.CorequisitesList
 import com.example.courseselectionguide.data.data_classes.Lessons
 import com.example.courseselectionguide.data.data_classes.PrerequisitesList
@@ -346,9 +347,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         )
 
         //show lessons on RecyclerView
-        val lessonsAdapter = AdapterLessons(requireContext(), dataList, this)
-        binding.recyclerSelected.adapter = lessonsAdapter
-        binding.recyclerSelected.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this)
 
     }
 

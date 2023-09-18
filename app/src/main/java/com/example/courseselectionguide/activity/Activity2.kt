@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
+import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.data_classes.CorequisitesList
 import com.example.courseselectionguide.data.data_classes.Lessons
 import com.example.courseselectionguide.data.data_classes.PrerequisitesList
@@ -335,10 +336,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         )
 
         //recyclerView for lessons
-        val adapter = AdapterLessons(this, dataList, this)
-        binding.recyclerManual.adapter = adapter
-        binding.recyclerManual.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

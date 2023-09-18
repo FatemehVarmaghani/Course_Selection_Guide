@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
+import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.data_classes.CorequisitesList
 import com.example.courseselectionguide.data.data_classes.Lessons
 import com.example.courseselectionguide.data.data_classes.PrerequisitesList
@@ -345,9 +346,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         )
 
         //show lessons on recyclerView
-        val lessonsAdapter = AdapterLessons(requireContext(), dataList, this)
-        binding.recyclerRecommendation.adapter = lessonsAdapter
-        binding.recyclerRecommendation.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        UtilityClass.showRecyclerData(binding.recyclerRecommendation, dataList, requireContext(), this)
     }
 
     override fun onItemClicked(lesson: Lessons) {

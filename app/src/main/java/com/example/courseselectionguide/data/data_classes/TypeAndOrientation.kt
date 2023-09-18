@@ -6,16 +6,16 @@ import androidx.room.PrimaryKey
 @Entity
 data class LessonType(
     @PrimaryKey(autoGenerate = true)
-    val typeId: Int,
+    val typeId: Int? = null,
     val typeName: String,
-    val allowedPrUnitsSum: Int,
-    val allowedTeUnitsSum: Int
+    val allowedPrUnitsSum: Int? = null,
+    val allowedTeUnitsSum: Int? = null
 )
 
 @Entity
 data class LessonOrientation(
     @PrimaryKey(autoGenerate = true)
-    val orientationId: Int,
+    val orientationId: Int? = null,
     val orientationName: String,
-    val allowedPUnitsSum: Int
+    val allowedPUnitsSum: Int? = null
 )

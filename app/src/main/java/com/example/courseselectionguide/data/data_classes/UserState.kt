@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserState (
     @PrimaryKey(autoGenerate = true)
-    val stateId: Int,
+    val stateId: Int? = null,
     val stateName: String
 )

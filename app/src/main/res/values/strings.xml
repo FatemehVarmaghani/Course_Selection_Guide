@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Course Selection Guide</string>
     <string name="recommended_lessons">دروس پیشنهادی</string>
     <string name="selected_lessons">دروس انتخاب شده</string>
@@ -17,4 +18,37 @@
     <string name="passed_units">واحدهای گذرانده</string>
     <string name="failed_units">واحدهای رد/حذف‌شده</string>
     <string name="remained_units">واحدهای باقی‌مانده</string>
+
+    //lesson state
+    <string name="remained">باقی‌مانده</string>
+    <string name="passed">گذرانده</string>
+    <string name="failed">رد/حذف‌شده</string>
+    <string name="selected">انتخاب شده</string>
+    <string name="recommended">پیشنهادی</string>
+
+    //lesson type
+    <string name="general">عمومی</string>
+    <string name="islamic_general">عمومی اسلامی</string>
+    <string name="basic">پایه</string>
+    <string name="main">اصلی</string>
+    <string name="specialized">تخصصی</string>
+    <string name="focused_specialized">تمرکز تخصصی</string>
+    <string name="optional">اختیاری</string>
+
+    //lesson orientation
+    <string name="theoretical_foundations_of_islam">اختیاری</string>
+    <string name="islamic_ethics">اختیاری</string>
+    <string name="islamic_revolution">اختیاری</string>
+    <string name="islamic_history_and_civilization">اختیاری</string>
+    <string name="familiarity_with_islamic_sources">اختیاری</string>
+    <string name="software_systems">اختیاری</string>
+    <string name="information_systems">اختیاری</string>
+    <string name="computer_games">اختیاری</string>
+    <string name="artificial_intelligence">اختیاری</string>
+
+    //user state
+    <string name="excellent">ممتاز</string>
+    <string name="normal">معمولی</string>
+    <string name="senior">ترم آخر</string>
+
 </resources>
