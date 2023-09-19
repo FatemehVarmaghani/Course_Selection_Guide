@@ -3,6 +3,7 @@
     <string name="app_name">Course Selection Guide</string>
     <string name="recommended_lessons">دروس پیشنهادی</string>
     <string name="selected_lessons">دروس انتخاب شده</string>
+    <string name="manual_selection">انتخاب دستی</string>
     <string name="state">وضعیت</string>
     <string name="add_new_lesson">افزودن درس جدید</string>
     <string name="clear_list">پاک کردن لیست</string>

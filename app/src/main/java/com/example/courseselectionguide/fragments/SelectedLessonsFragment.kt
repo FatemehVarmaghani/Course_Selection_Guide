@@ -40,6 +40,8 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
             when(it.itemId) {
                 R.id.add_new_lesson -> {
                     val intent = Intent(context, Activity2::class.java)
+                    intent.putExtra("title", getString(R.string.manual_selection))
+                    intent.putExtra("isManual", true)
                     startActivity(intent)
                     //send data to show remained lessons
                     true

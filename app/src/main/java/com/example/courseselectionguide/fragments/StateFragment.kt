@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import java.lang.Exception
 
 class StateFragment : Fragment(), EditDialog.EditInfoEvent {
     private lateinit var binding: FragmentStateBinding
@@ -82,10 +81,16 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
         //click on buttons
         binding.btnGotoPassedLessons.setOnClickListener {
             val intent = Intent(requireContext(), Activity2::class.java)
+            intent.putExtra("title", getString(R.string.passed_lessons))
+            intent.putExtra("isPassed", true)
+            intent.putExtra("isManual", false)
             startActivity(intent)
         }
         binding.btnGotoFailedLessons.setOnClickListener {
             val intent = Intent(requireContext(), Activity2::class.java)
+            intent.putExtra("title", getString(R.string.failed_lessons))
+            intent.putExtra("isPassed", false)
+            intent.putExtra("isManual", false)
             startActivity(intent)
         }
 
