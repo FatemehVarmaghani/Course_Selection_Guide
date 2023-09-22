@@ -37,15 +37,15 @@
     <string name="optional">اختیاری</string>
 
     //lesson orientation
-    <string name="theoretical_foundations_of_islam">اختیاری</string>
-    <string name="islamic_ethics">اختیاری</string>
-    <string name="islamic_revolution">اختیاری</string>
-    <string name="islamic_history_and_civilization">اختیاری</string>
-    <string name="familiarity_with_islamic_sources">اختیاری</string>
-    <string name="software_systems">اختیاری</string>
-    <string name="information_systems">اختیاری</string>
-    <string name="computer_games">اختیاری</string>
-    <string name="artificial_intelligence">اختیاری</string>
+    <string name="theoretical_foundations_of_islam">مبانی نظری اسلام</string>
+    <string name="islamic_ethics">اخلاق اسلامی</string>
+    <string name="islamic_revolution">انقلاب اسلامی</string>
+    <string name="islamic_history_and_civilization">تاریخ و تمدن اسلامی</string>
+    <string name="familiarity_with_islamic_sources">آشنایی با منابع اسلامی</string>
+    <string name="software_systems">سیستم های نرم افزاری</string>
+    <string name="information_systems">سیستم های اطلاعاتی</string>
+    <string name="computer_games">باری های کامپیوتری</string>
+    <string name="artificial_intelligence">هوش مصنوعی</string>
 
     //user state
     <string name="excellent">ممتاز</string>

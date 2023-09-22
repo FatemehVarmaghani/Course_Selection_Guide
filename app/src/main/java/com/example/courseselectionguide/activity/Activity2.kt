@@ -2,15 +2,14 @@ package com.example.courseselectionguide.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
-import com.example.courseselectionguide.data.data_classes.CorequisitesList
-import com.example.courseselectionguide.data.data_classes.Lessons
-import com.example.courseselectionguide.data.data_classes.PrerequisitesList
+import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.Activity2Binding
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
 import com.example.courseselectionguide.fragments.FilterDialog
@@ -42,30 +41,13 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         //data for recyclerView
         val isManual = intent.getBooleanExtra("isManual", true)
         val isPassed = intent.getBooleanExtra("isPassed", true)
-        var dataList = arrayListOf(
-            Lessons(
-                lessonName = "ریاضی عمومی 1",
-                theoreticalUnitNumber = 3f,
-                practicalUnitNumber = 0f,
-                lessonTypeId = 3,
-                unitType = true,
-                recommendedSemester = 1,
-                lessonState = 1
-            ),
-            Lessons(
-                lessonName = "فیزیک 1",
-                theoreticalUnitNumber = 3f,
-                practicalUnitNumber = 0f,
-                lessonTypeId = 3,
-                unitType = true,
-                recommendedSemester = 1,
-                lessonState = 1
-            )
-        )
+        val dataList = lessonsDao.getAllLessons()
+        Log.v("testLog", dataList.toString())
+
         // check booleans and show the related list
 
         //recyclerView for lessons
-        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this)
+        UtilityClass.showRecyclerData(binding.recyclerManual, ArrayList(dataList), this, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -101,18 +83,18 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 lesson.practicalUnitNumber.toInt().toString()
         }
         //checking pre and co requisites:
-        if (lesson.listOfPrerequisites == null) {
-            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
-        } else {
-            lessonInfoDialogBinding.infoDialogPrerequisites.text =
-                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
-        }
-        if (lesson.listOfCorequisites == null) {
-            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
-        } else {
-            lessonInfoDialogBinding.infoDialogCorequisites.text =
-                lesson.listOfCorequisites.toString() // extract from database
-        }
+//        if (lesson.listOfPrerequisites == null) {
+//            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
+//        } else {
+//            lessonInfoDialogBinding.infoDialogPrerequisites.text =
+//                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
+//        }
+//        if (lesson.listOfCorequisites == null) {
+//            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
+//        } else {
+//            lessonInfoDialogBinding.infoDialogCorequisites.text =
+//                lesson.listOfCorequisites.toString() // extract from database
+//        }
 
         //create & show dialog
         val lessonInfoDialog = AlertDialog.Builder(this)

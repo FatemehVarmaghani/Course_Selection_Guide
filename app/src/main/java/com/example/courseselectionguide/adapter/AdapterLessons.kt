@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
-import com.example.courseselectionguide.data.data_classes.Lessons
+import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.CardLessonBinding
 
 class AdapterLessons(private val context: Context, private val itemList: ArrayList<Lessons>, private val itemEvents: ItemEvents) : RecyclerView.Adapter<AdapterLessons.ViewHolderLessons>() {

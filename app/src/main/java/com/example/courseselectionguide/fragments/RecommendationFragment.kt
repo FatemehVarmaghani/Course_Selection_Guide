@@ -7,14 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
-import com.example.courseselectionguide.data.data_classes.CorequisitesList
-import com.example.courseselectionguide.data.data_classes.Lessons
-import com.example.courseselectionguide.data.data_classes.PrerequisitesList
+import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
 import com.example.courseselectionguide.databinding.FragmentRecommendationBinding
 
@@ -124,7 +120,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 3,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(2)),
                 lessonState = 1
             ),
             Lessons(
@@ -134,7 +129,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 3,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(1)),
                 lessonState = 1
             ),
             Lessons(
@@ -144,7 +138,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfCorequisites = CorequisitesList(arrayListOf(1, 5)),
                 lessonState = 1
             ),
             Lessons(
@@ -154,7 +147,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 3,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(1)),
                 lessonState = 1
             ),
             Lessons(
@@ -164,7 +156,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 1,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(6)),
                 lessonState = 1
             ),
             Lessons(
@@ -174,7 +165,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(5)),
                 lessonState = 1
             ),
             Lessons(
@@ -184,7 +174,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 3,
                 unitType = false,
                 recommendedSemester = 2,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(5)),
                 lessonState = 1
             ),
             Lessons(
@@ -202,7 +191,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(11)),
                 lessonState = 1
             ),
             Lessons(
@@ -212,7 +200,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 3,
                 unitType = false,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(8)),
                 lessonState = 1
             ),
             Lessons(
@@ -222,7 +209,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(9)),
                 lessonState = 1
             ),
             Lessons(
@@ -232,7 +218,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(10, 13)),
                 lessonState = 1
             ),
             Lessons(
@@ -242,7 +227,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfCorequisites = CorequisitesList(arrayListOf(10)),
                 lessonState = 1
             ),
             Lessons(
@@ -252,7 +236,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(9, 11)),
                 lessonState = 1
             ),
             Lessons(
@@ -271,7 +254,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 3,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(4)),
                 lessonState = 1
             ),
             Lessons(
@@ -281,7 +263,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(19)),
                 lessonState = 1
             ),
             Lessons(
@@ -291,7 +272,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(19)),
                 lessonState = 1
             ),
             Lessons(
@@ -301,7 +281,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(21)),
                 lessonState = 1
             ),
             Lessons(
@@ -311,7 +290,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(20)),
                 lessonState = 1
             ),
             Lessons(
@@ -321,7 +299,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 5,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(19)),
                 lessonState = 1
             ),
             Lessons(
@@ -331,7 +308,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lessonTypeId = 4,
                 unitType = true,
                 recommendedSemester = 4,
-                listOfPrerequisites = PrerequisitesList(arrayListOf(23)),
                 lessonState = 1
             ),
             Lessons(
@@ -377,18 +353,18 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 lesson.practicalUnitNumber.toInt().toString()
         }
         //checking pre and co requisites:
-        if (lesson.listOfPrerequisites == null) {
-            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
-        } else {
-            lessonInfoDialogBinding.infoDialogPrerequisites.text =
-                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
-        }
-        if (lesson.listOfCorequisites == null) {
-            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
-        } else {
-            lessonInfoDialogBinding.infoDialogCorequisites.text =
-                lesson.listOfCorequisites.toString() // extract from database
-        }
+//        if (lesson.listOfPrerequisites == null) {
+//            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
+//        } else {
+//            lessonInfoDialogBinding.infoDialogPrerequisites.text =
+//                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
+//        }
+//        if (lesson.listOfCorequisites == null) {
+//            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
+//        } else {
+//            lessonInfoDialogBinding.infoDialogCorequisites.text =
+//                lesson.listOfCorequisites.toString() // extract from database
+//        }
 
         //create & show dialog
         val lessonInfoDialog = AlertDialog.Builder(requireContext())

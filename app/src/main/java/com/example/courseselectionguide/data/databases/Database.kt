@@ -4,44 +4,58 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.courseselectionguide.data.daos.CorequisitesDao
+import com.example.courseselectionguide.data.daos.LessonOrientationDao
+import com.example.courseselectionguide.data.daos.LessonStateDao
+import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
-import com.example.courseselectionguide.data.data_classes.CorequisitesList
-import com.example.courseselectionguide.data.data_classes.LessonOrientation
-import com.example.courseselectionguide.data.data_classes.LessonState
-import com.example.courseselectionguide.data.data_classes.LessonType
-import com.example.courseselectionguide.data.data_classes.Lessons
-import com.example.courseselectionguide.data.data_classes.PrerequisitesList
-import com.example.courseselectionguide.data.data_classes.UserState
+import com.example.courseselectionguide.data.daos.PrerequisitesDao
+import com.example.courseselectionguide.data.daos.UserStateDao
+import com.example.courseselectionguide.data.tables.Corequisites
+import com.example.courseselectionguide.data.tables.LessonOrientation
+import com.example.courseselectionguide.data.tables.LessonState
+import com.example.courseselectionguide.data.tables.LessonType
+import com.example.courseselectionguide.data.tables.Lessons
+import com.example.courseselectionguide.data.tables.Prerequisites
+import com.example.courseselectionguide.data.tables.UserState
 
 @Database(
     version = 1,
     exportSchema = false,
-    entities = [Lessons::class,
+    entities = [
+        Lessons::class,
         LessonType::class,
         LessonOrientation::class,
         LessonState::class,
-        UserState::class]
+        Prerequisites::class,
+        Corequisites::class,
+        UserState::class
+    ]
 )
-abstract class LessonDatabase : RoomDatabase() {
+abstract class MainDatabase : RoomDatabase() {
 
     //dao
     abstract val lessonsDao: LessonsDao
-    abstract val lessonStateDao: LessonsDao
-    abstract val lessonTypeDao: LessonsDao
-    abstract val lessonOrientationDao: LessonsDao
-    abstract val userStateDao: LessonsDao
+    abstract val lessonTypeDao: LessonTypeDao
+    abstract val lessonOrientationDao: LessonOrientationDao
+    abstract val lessonStateDao: LessonStateDao
+    abstract val prerequisitesDao: PrerequisitesDao
+    abstract val corequisitesDao: CorequisitesDao
+    abstract val userStateDao: UserStateDao
 
     companion object {
-        private var database: LessonDatabase? = null
-        fun getDatabase(context: Context): LessonDatabase {
-            if (database == null) {
-                database = Room.databaseBuilder(
+
+        private var dataBase: MainDatabase? = null
+        fun getDatabase(context: Context): MainDatabase {
+            if (dataBase == null) {
+                dataBase = Room.databaseBuilder(
                     context.applicationContext,
-                    LessonDatabase::class.java,
-                    "appDatabase.db"
+                    MainDatabase::class.java,
+                    "mainDatabase.db"
                 ).allowMainThreadQueries().build()
             }
-            return database!!
+            return dataBase!!
         }
+
     }
 }

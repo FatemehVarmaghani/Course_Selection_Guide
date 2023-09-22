@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.adapter.AdapterLessons
-import com.example.courseselectionguide.data.data_classes.Lessons
+import com.example.courseselectionguide.data.tables.Lessons
 
 class UtilityClass {
 
