@@ -8,5 +8,5 @@ data class LessonOrientation (
     @PrimaryKey(autoGenerate = true)
     val orientationId: Int? = null,
     val orientationName: String,
-    val allowedPUnitsSum: Int? = null
+    val allowedUnitsSum: Int? = null
 )

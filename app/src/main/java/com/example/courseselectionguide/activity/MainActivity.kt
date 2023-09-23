@@ -9,31 +9,41 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.data.daos.CorequisitesDao
 import com.example.courseselectionguide.data.daos.LessonOrientationDao
 import com.example.courseselectionguide.data.daos.LessonStateDao
 import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
+import com.example.courseselectionguide.data.daos.PrerequisitesDao
+import com.example.courseselectionguide.data.daos.UserStateDao
 import com.example.courseselectionguide.data.databases.MainDatabase
+import com.example.courseselectionguide.data.tables.Corequisites
 import com.example.courseselectionguide.data.tables.LessonOrientation
 import com.example.courseselectionguide.data.tables.LessonState
 import com.example.courseselectionguide.data.tables.LessonType
 import com.example.courseselectionguide.data.tables.Lessons
+import com.example.courseselectionguide.data.tables.Prerequisites
+import com.example.courseselectionguide.data.tables.UserState
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
 import com.example.courseselectionguide.fragments.SelectedLessonsFragment
 import com.example.courseselectionguide.fragments.StateFragment
 import java.lang.Exception
-import java.lang.RuntimeException
 
 lateinit var sharedPref: SharedPreferences
-lateinit var lessonsList: List<Lessons>
+//lateinit var lessonsList: List<Lessons>
 lateinit var lessonsDao: LessonsDao
-lateinit var lessonTypeList: List<LessonType>
+//lateinit var lessonTypeList: List<LessonType>
 lateinit var lessonTypeDao: LessonTypeDao
-lateinit var lessonOrientationList: List<LessonOrientation>
+//lateinit var lessonOrientationList: List<LessonOrientation>
 lateinit var lessonOrientationDao: LessonOrientationDao
-lateinit var lessonStateList: List<LessonState>
+//lateinit var lessonStateList: List<LessonState>
 lateinit var lessonStateDao: LessonStateDao
+//lateinit var prerequisitesList: List<Prerequisites>
+lateinit var prerequisitesDao: PrerequisitesDao
+//lateinit var corequisitesList: List<Corequisites>
+lateinit var corequisitesDao: CorequisitesDao
+lateinit var userStateDao: UserStateDao
 
 class MainActivity : AppCompatActivity() {
 
@@ -83,9 +93,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun firstRun() {
         try {
+
             //lesson types
             lessonTypeDao = MainDatabase.getDatabase(this).lessonTypeDao
-            lessonTypeList = arrayListOf(
+            val lessonTypeList = arrayListOf(
                 LessonType(typeName = getString(R.string.islamic_general)),
                 LessonType(typeName = getString(R.string.general)),
                 LessonType(typeName = getString(R.string.basic)),
@@ -98,22 +109,46 @@ class MainActivity : AppCompatActivity() {
 
             //lesson orientations
             lessonOrientationDao = MainDatabase.getDatabase(this).lessonOrientationDao
-            lessonOrientationList = arrayListOf(
-                LessonOrientation(orientationName = getString(R.string.theoretical_foundations_of_islam)),
-                LessonOrientation(orientationName = getString(R.string.islamic_ethics)),
-                LessonOrientation(orientationName = getString(R.string.islamic_revolution)),
-                LessonOrientation(orientationName = getString(R.string.islamic_history_and_civilization)),
-                LessonOrientation(orientationName = getString(R.string.familiarity_with_islamic_sources)),
+            val lessonOrientationList = arrayListOf(
+                LessonOrientation(
+                    orientationName = getString(R.string.theoretical_foundations_of_islam),
+                    allowedUnitsSum = 4
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.islamic_ethics),
+                    allowedUnitsSum = 2
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.islamic_revolution),
+                    allowedUnitsSum = 2
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.islamic_history_and_civilization),
+                    allowedUnitsSum = 2
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.familiarity_with_islamic_sources),
+                    allowedUnitsSum = 2
+                ),
                 LessonOrientation(orientationName = getString(R.string.software_systems)),
-                LessonOrientation(orientationName = getString(R.string.information_systems)),
-                LessonOrientation(orientationName = getString(R.string.computer_games)),
-                LessonOrientation(orientationName = getString(R.string.artificial_intelligence))
+                LessonOrientation(
+                    orientationName = getString(R.string.information_systems),
+                    allowedUnitsSum = 12
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.computer_games),
+                    allowedUnitsSum = 3
+                ),
+                LessonOrientation(
+                    orientationName = getString(R.string.artificial_intelligence),
+                    allowedUnitsSum = 3
+                )
             )
             lessonOrientationDao.insertAll(lessonOrientationList)
 
             //lesson states
             lessonStateDao = MainDatabase.getDatabase(this).lessonStateDao
-            lessonStateList = arrayListOf(
+            val lessonStateList = arrayListOf(
                 LessonState(lessonStateName = getString(R.string.remained_lessons)),
                 LessonState(lessonStateName = getString(R.string.passed_lessons)),
                 LessonState(lessonStateName = getString(R.string.failed_lessons)),
@@ -124,330 +159,708 @@ class MainActivity : AppCompatActivity() {
 
             //lessons
             lessonsDao = MainDatabase.getDatabase(this).lessonsDao
-            lessonsList = arrayListOf(
+            val lessonsList = arrayListOf(
                 Lessons(
                     lessonName = "ریاضی عمومی 1",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 3,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "فیزیک 1",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 3,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "فارسی عمومی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 2,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "زبان عمومی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 2,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "مبانی کامپیوتر و برنامه سازی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
-                    lessonName = "اندیش اسلامی 1",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    lessonName = "اندیشه اسلامی 1",
+                    unitNumber = 2,
                     lessonTypeId = 1,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
                     lessonOrientationId = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "تاریخ فرهنگ و تمدن اسلام و ایران",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 2,
                     lessonTypeId = 2,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "فیزیک 2",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 3,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "ریاضی عمومی 2",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 3,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "ریاضیات گسسته",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "معادلات دیفرانسیل",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 3,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "اندیشه اسلامی 2",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 2,
                     lessonTypeId = 1,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonOrientationId = 1,
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "برنامه سازی پیشرفته",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "کارگاه کامپیوتر",
-                    theoreticalUnitNumber = 0f,
-                    practicalUnitNumber = 1f,
+                    unitNumber = 1,
                     lessonTypeId = 3,
-                    unitType = false,
+                    isTheoretical = false,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "تربیت بدنی",
-                    theoreticalUnitNumber = 0.5f,
-                    practicalUnitNumber = 0.5f,
+                    unitNumber = 1,
                     lessonTypeId = 2,
+                    isTheoretical = false,
                     recommendedSemester = 2,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "مدارهای الکتریکی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "آزمایشگاه فیزیک 2",
-                    theoreticalUnitNumber = 0f,
-                    practicalUnitNumber = 1f,
+                    unitNumber = 1,
                     lessonTypeId = 3,
-                    unitType = false,
+                    isTheoretical = false,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "آمار و احتمال مهندسی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "ساختمان داده",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "مدارهای منطقی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "ریاضیات مهندسی",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
-                    lessonName = "انقلاب اسلامی",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    lessonName = "انقلاب اسلامی ایران",
+                    unitNumber = 2,
                     lessonTypeId = 1,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonOrientationId = 3,
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "زبان تخصصی",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 2,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 3,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
-                    lessonName = "نظریه زبان ها و ماشین  ها",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    lessonName = "نظریه زبان ها و ماشین ها",
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "طراحی الگوریتم",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "سیگنال ها و سیستم ها",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "معماری کامپیوتر",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "پایگاه داده",
-                    theoreticalUnitNumber = 3f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 3,
                     lessonTypeId = 5,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "روش پژوهش و ارائه",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 2,
                     lessonTypeId = 4,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
+                    lessonState = 1,
+                    isFixed = true
                 ),
                 Lessons(
                     lessonName = "آئین زندگی (اخلاق کاربردی)",
-                    theoreticalUnitNumber = 2f,
-                    practicalUnitNumber = 0f,
+                    unitNumber = 2,
                     lessonTypeId = 1,
-                    unitType = true,
+                    isTheoretical = true,
                     recommendedSemester = 4,
-                    lessonState = 1
-                )
+                    lessonOrientationId = 2,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "تحلیل و طراحی سیستم ها",
+                    unitNumber = 3,
+                    lessonTypeId = 5,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "اصول طراحی کامپایلرها",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "ریزپردازنده و زبان اسمبلی",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "طراحی کامپیوتری سیستم های دیجیتال",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "سیستم های عامل",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه سیستم های عامل",
+                    unitNumber = 1,
+                    lessonTypeId = 4,
+                    isTheoretical = false,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه مدارهای منطقی و معماری کامپیوتر",
+                    unitNumber = 1,
+                    lessonTypeId = 4,
+                    isTheoretical = false,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "تاریخ تحلیل صدر اسلام",
+                    unitNumber = 2,
+                    lessonTypeId = 1,
+                    isTheoretical = true,
+                    lessonOrientationId = 4,
+                    recommendedSemester = 5,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "مهندسی نرم افزار",
+                    unitNumber = 3,
+                    lessonTypeId = 5,
+                    isTheoretical = true,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "هوش مصنوعی و سیستم خبره",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "شبکه های کامپیوتری",
+                    unitNumber = 3,
+                    lessonTypeId = 4,
+                    isTheoretical = true,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه ریزپردازنده",
+                    unitNumber = 1,
+                    lessonTypeId = 4,
+                    isTheoretical = false,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه شبکه های کامپیوتر",
+                    unitNumber = 1,
+                    lessonTypeId = 4,
+                    isTheoretical = false,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "دانش خانواده و جمعیت",
+                    unitNumber = 2,
+                    lessonTypeId = 2,
+                    isTheoretical = true,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "ورزش 1",
+                    unitNumber = 1,
+                    lessonTypeId = 2,
+                    isTheoretical = false,
+                    recommendedSemester = 6,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "مهندسی اینترنت",
+                    unitNumber = 3,
+                    lessonTypeId = 5,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "طراحی زبان های برنامه سازی",
+                    unitNumber = 3,
+                    lessonTypeId = 5,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "تفسیر موضوعی نهج البلاغه",
+                    unitNumber = 2,
+                    lessonTypeId = 1,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonOrientationId = 5,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "پروژه نرم افزار",
+                    unitNumber = 3,
+                    lessonTypeId = 5,
+                    isTheoretical = false,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    neededPassedUnitsSum = 100,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "کارآموزی",
+                    unitNumber = 1,
+                    lessonTypeId = 5,
+                    isTheoretical = false,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    neededPassedUnitsSum = 80,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آشنایی با قرآن",
+                    unitNumber = 1,
+                    lessonTypeId = 2,
+                    isTheoretical = true,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "اندیشه ها و وصایای امام",
+                    unitNumber = 1,
+                    lessonTypeId = 2,
+                    isTheoretical = true,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "تاریخ فرهنگ و تمدن اسلامی",
+                    unitNumber = 2,
+                    lessonTypeId = 1,
+                    isTheoretical = true,
+                    recommendedSemester = 5,
+                    lessonOrientationId = 4,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "تفسیر موضوعی قرآن",
+                    unitNumber = 2,
+                    lessonTypeId = 1,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonOrientationId = 5,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "پیاده سازی سیستم پایگاه داده",
+                    unitNumber = 3,
+                    lessonTypeId = 6,
+                    isTheoretical = true,
+                    recommendedSemester = 6,
+                    lessonOrientationId = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "مبانی داده کاوی",
+                    unitNumber = 3,
+                    lessonTypeId = 6,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonOrientationId = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "مبانی بازیابی اطلاعات و جستجوی وب",
+                    unitNumber = 3,
+                    lessonTypeId = 6,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonOrientationId = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "سیستم های اطلاعات مدیریت",
+                    unitNumber = 3,
+                    lessonTypeId = 6,
+                    isTheoretical = true,
+                    recommendedSemester = 8,
+                    lessonOrientationId = 7,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "گرافیک کامپیوتری",
+                    unitNumber = 3,
+                    lessonTypeId = 7,
+                    isTheoretical = true,
+                    recommendedSemester = 7,
+                    lessonOrientationId = 8,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "اصول رباتیکز",
+                    unitNumber = 3,
+                    lessonTypeId = 7,
+                    isTheoretical = true,
+                    recommendedSemester = 8,
+                    lessonOrientationId = 9,
+                    lessonState = 1,
+                    isFixed = true
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه مهندسی نرم افزار",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه اصول طراحی کامپایلر",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه پایگاه داده",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه مدارهای الکتریکی",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه اصول رباتیکز",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "آزمایشگاه گرافیک کامپیوتری",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 8,
+                    lessonState = 1,
+                    isFixed = false
+                ),
+                Lessons(
+                    lessonName = "کارگاه برنامه نویسی مت لب",
+                    unitNumber = 1,
+                    lessonTypeId = 7,
+                    isTheoretical = false,
+                    recommendedSemester = 7,
+                    lessonState = 1,
+                    isFixed = false
+                ),
             )
             lessonsDao.insertAll(lessonsList)
-        } catch (ne: RuntimeException) {
-            Toast.makeText(this, "runtime exception", Toast.LENGTH_SHORT).show()
-            Log.v("runtimeException", ne.toString())
+
+            //prerequisites
+            prerequisitesDao = MainDatabase.getDatabase(this).prerequisitesDao
+            val prerequisitesList = arrayListOf(
+                Prerequisites(mainLessonId = 8, prerequisiteLessonId = 2),
+                Prerequisites(mainLessonId = 9, prerequisiteLessonId = 1),
+                Prerequisites(mainLessonId = 11, prerequisiteLessonId = 1),
+                Prerequisites(mainLessonId = 12, prerequisiteLessonId = 6),
+                Prerequisites(mainLessonId = 13, prerequisiteLessonId = 5),
+                Prerequisites(mainLessonId = 14, prerequisiteLessonId = 5),
+                Prerequisites(mainLessonId = 16, prerequisiteLessonId = 11),
+                Prerequisites(mainLessonId = 17, prerequisiteLessonId = 8),
+                Prerequisites(mainLessonId = 18, prerequisiteLessonId = 9),
+                Prerequisites(mainLessonId = 19, prerequisiteLessonId = 10),
+                Prerequisites(mainLessonId = 19, prerequisiteLessonId = 13),
+                Prerequisites(mainLessonId = 21, prerequisiteLessonId = 9),
+                Prerequisites(mainLessonId = 21, prerequisiteLessonId = 11),
+                Prerequisites(mainLessonId = 23, prerequisiteLessonId = 4),
+                Prerequisites(mainLessonId = 24, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 25, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 26, prerequisiteLessonId = 21),
+                Prerequisites(mainLessonId = 27, prerequisiteLessonId = 20),
+                Prerequisites(mainLessonId = 28, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 29, prerequisiteLessonId = 23),
+                Prerequisites(mainLessonId = 31, prerequisiteLessonId = 13),
+                Prerequisites(mainLessonId = 32, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 33, prerequisiteLessonId = 27),
+                Prerequisites(mainLessonId = 34, prerequisiteLessonId = 27),
+                Prerequisites(mainLessonId = 35, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 35, prerequisiteLessonId = 27),
+                Prerequisites(mainLessonId = 37, prerequisiteLessonId = 20),
+                Prerequisites(mainLessonId = 39, prerequisiteLessonId = 31),
+                Prerequisites(mainLessonId = 40, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 41, prerequisiteLessonId = 35),
+                Prerequisites(mainLessonId = 42, prerequisiteLessonId = 33),
+                Prerequisites(mainLessonId = 45, prerequisiteLessonId = 15),
+                Prerequisites(mainLessonId = 46, prerequisiteLessonId = 41),
+                Prerequisites(mainLessonId = 47, prerequisiteLessonId = 32),
+                Prerequisites(mainLessonId = 55, prerequisiteLessonId = 28),
+                Prerequisites(mainLessonId = 56, prerequisiteLessonId = 28),
+                Prerequisites(mainLessonId = 56, prerequisiteLessonId = 19),
+                Prerequisites(mainLessonId = 57, prerequisiteLessonId = 25),
+                Prerequisites(mainLessonId = 58, prerequisiteLessonId = 31),
+                Prerequisites(mainLessonId = 59, prerequisiteLessonId = 13),
+                Prerequisites(mainLessonId = 60, prerequisiteLessonId = 13)
+            )
+            prerequisitesDao.insertAll(prerequisitesList)
+
+            //corequisites
+            corequisitesDao = MainDatabase.getDatabase(this).corequisitesDao
+            val corequisitesList = arrayListOf(
+                Corequisites(mainLessonId = 10, corequisiteLessonId = 1),
+                Corequisites(mainLessonId = 10, corequisiteLessonId = 5),
+                Corequisites(mainLessonId = 20, corequisiteLessonId = 10),
+                Corequisites(mainLessonId = 36, corequisiteLessonId = 35),
+                Corequisites(mainLessonId = 37, corequisiteLessonId = 27),
+                Corequisites(mainLessonId = 43, corequisiteLessonId = 41),
+                Corequisites(mainLessonId = 46, corequisiteLessonId = 28),
+                Corequisites(mainLessonId = 61, corequisiteLessonId = 31),
+                Corequisites(mainLessonId = 62, corequisiteLessonId = 32),
+                Corequisites(mainLessonId = 63, corequisiteLessonId = 28),
+                Corequisites(mainLessonId = 64, corequisiteLessonId = 16),
+                Corequisites(mainLessonId = 65, corequisiteLessonId = 60),
+                Corequisites(mainLessonId = 66, corequisiteLessonId = 59),
+                Corequisites(mainLessonId = 67, corequisiteLessonId = 26)
+            )
+            corequisitesDao.insertAll(corequisitesList)
+
+            //user state
+            userStateDao = MainDatabase.getDatabase(this).userStateDao
+            val userStateList = arrayListOf(
+                UserState(stateName = getString(R.string.excellent)),
+                UserState(stateName = getString(R.string.normal)),
+                UserState(stateName = getString(R.string.senior))
+            )
+            userStateDao.insertAll(userStateList)
+
         } catch (e: Exception) {
             Toast.makeText(this, "catch!", Toast.LENGTH_SHORT).show()
         }
-
-
-//        //lesson state
-//        lessonStateList = arrayListOf(
-//            LessonState(lessonStateName = getString(R.string.remained)),
-//            LessonState(lessonStateName = getString(R.string.passed)),
-//            LessonState(lessonStateName = getString(R.string.failed)),
-//            LessonState(lessonStateName = getString(R.string.selected)),
-//            LessonState(lessonStateName = getString(R.string.recommended))
-//        )
-//        lessonStateDao.insertAll(lessonStateList)
-//
-//        //lesson type
-//        lessonTypeList = arrayListOf(
-//            LessonType(typeName = getString(R.string.islamic_general)),
-//            LessonType(typeName = getString(R.string.general)),
-//            LessonType(typeName = getString(R.string.basic)),
-//            LessonType(typeName = getString(R.string.main)),
-//            LessonType(typeName = getString(R.string.specialized)),
-//            LessonType(typeName = getString(R.string.focused_specialized)),
-//            LessonType(typeName = getString(R.string.optional))
-//        )
-//        lessonTypeDao.insertAll(lessonTypeList)
-//
-//        //lesson orientation
-//        lessonOrientationList = arrayListOf(
-//            LessonOrientation(orientationName = getString(R.string.theoretical_foundations_of_islam)),
-//            LessonOrientation(orientationName = getString(R.string.islamic_ethics)),
-//            LessonOrientation(orientationName = getString(R.string.islamic_revolution)),
-//            LessonOrientation(orientationName = getString(R.string.islamic_history_and_civilization)),
-//            LessonOrientation(orientationName = getString(R.string.familiarity_with_islamic_sources)),
-//            LessonOrientation(orientationName = getString(R.string.software_systems)),
-//            LessonOrientation(orientationName = getString(R.string.information_systems)),
-//            LessonOrientation(orientationName = getString(R.string.computer_games)),
-//            LessonOrientation(orientationName = getString(R.string.artificial_intelligence))
-//        )
-//        lessonOrientationDao.insertAll(lessonOrientationList)
-//
-//        //user state
-//        userStateList = arrayListOf(
-//            UserState(stateName = getString(R.string.excellent)),
-//            UserState(stateName = getString(R.string.normal)),
-//            UserState(stateName = getString(R.string.senior)),
-//        )
-//        userStateDao.insertAll(userStateList)
 
     }
 

@@ -42,7 +42,6 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         val isManual = intent.getBooleanExtra("isManual", true)
         val isPassed = intent.getBooleanExtra("isPassed", true)
         val dataList = lessonsDao.getAllLessons()
-        Log.v("testLog", dataList.toString())
 
         // check booleans and show the related list
 
@@ -71,16 +70,14 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             else -> ""
         }
         // for lessons which have both theo and prac units, show float, for others show int:
-        if (lesson.unitType == null) {
+        if (lesson.isTheoretical) {
             lessonInfoDialogBinding.infoDialogTheoreticalUnits.text =
-                lesson.theoreticalUnitNumber.toString()
-            lessonInfoDialogBinding.infoDialogPracticalUnits.text =
-                lesson.practicalUnitNumber.toString()
+                lesson.unitNumber.toString()
+            lessonInfoDialogBinding.infoDialogPracticalUnits.text = "0"
         } else {
-            lessonInfoDialogBinding.infoDialogTheoreticalUnits.text =
-                lesson.theoreticalUnitNumber.toInt().toString()
+            lessonInfoDialogBinding.infoDialogTheoreticalUnits.text = "0"
             lessonInfoDialogBinding.infoDialogPracticalUnits.text =
-                lesson.practicalUnitNumber.toInt().toString()
+                lesson.unitNumber.toString()
         }
         //checking pre and co requisites:
 //        if (lesson.listOfPrerequisites == null) {

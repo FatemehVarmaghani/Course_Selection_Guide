@@ -31,13 +31,15 @@ data class Lessons(
     @PrimaryKey(autoGenerate = true)
     val lessonId: Int? = null,
     val lessonName: String,
-    val theoreticalUnitNumber: Float,
-    val practicalUnitNumber: Float,
     val lessonTypeId: Int,
-    val unitType: Boolean? = null,
-    // true is for theoretical, false for practical, null for both (like pe)
+    val unitNumber: Int,
+    val isTheoretical: Boolean,
     val lessonOrientationId: Int? = null,
     val neededPassedUnitsSum: Int? = null,
     val recommendedSemester: Int,
-    val lessonState: Int
+    val lessonState: Int,
+    val isFixed: Boolean
 )
+
+//recommended semester for general islamic is not needed!
+//just show only one of this type every semester
