@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
+import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.Activity2Binding
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
@@ -16,6 +17,7 @@ import com.example.courseselectionguide.fragments.FilterDialog
 
 class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.FilterEvent {
     private lateinit var binding: Activity2Binding
+    private lateinit var dataList: ArrayList<Lessons>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = Activity2Binding.inflate(layoutInflater)
@@ -41,12 +43,19 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         //data for recyclerView
         val isManual = intent.getBooleanExtra("isManual", true)
         val isPassed = intent.getBooleanExtra("isPassed", true)
-        val dataList = lessonsDao.getAllLessons()
+        lessonsDao = MainDatabase.getDatabase(this).lessonsDao
 
         // check booleans and show the related list
+        dataList = if (isManual) {
+            ArrayList(lessonsDao.getRemainedLessons())
+        } else if (isPassed) {
+            ArrayList(lessonsDao.getPassedLessons())
+        } else {
+            ArrayList(lessonsDao.getFailedLessons())
+        }
 
         //recyclerView for lessons
-        UtilityClass.showRecyclerData(binding.recyclerManual, ArrayList(dataList), this, this)
+        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
