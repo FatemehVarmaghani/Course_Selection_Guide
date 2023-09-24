@@ -8,15 +8,19 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
+import com.example.courseselectionguide.activity.CURRENT_SEMESTER
+import com.example.courseselectionguide.activity.lessonsDao
+import com.example.courseselectionguide.activity.sharedPref
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
+import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
 import com.example.courseselectionguide.databinding.FragmentRecommendationBinding
 
 class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
-
     private lateinit var binding: FragmentRecommendationBinding
+    private lateinit var dataList: ArrayList<Lessons>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +33,9 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        //dao
+        lessonsDao = MainDatabase.getDatabase(requireContext()).lessonsDao
+
         //inflating menu
         binding.toolbarRecommended.inflateMenu(R.menu.menu_recommended_fragment)
 
@@ -39,74 +46,16 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                     //add current recommended list to selected and clear recommended list
                     true
                 }
-
                 R.id.show_new_recommended_list -> {
                     //clear current recommended list and show a new one
                     true
                 }
-
                 else -> false
             }
         }
 
         //list of selected lessons
-        val dataList = arrayListOf(
-            Lessons(
-                lessonName = "ریاضی عمومی 1",
-                unitNumber = 3,
-                lessonTypeId = 3,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "فیزیک 1",
-                unitNumber = 3,
-                lessonTypeId = 3,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "فارسی عمومی",
-                unitNumber = 3,
-                lessonTypeId = 2,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "زبان عمومی",
-                unitNumber = 3,
-                lessonTypeId = 2,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "مبانی کامپیوتر و برنامه سازی",
-                unitNumber = 3,
-                lessonTypeId = 4,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "اندیش اسلامی 1",
-                unitNumber = 2,
-                lessonTypeId = 1,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonOrientationId = 1,
-                lessonState = 1,
-                isFixed = true
-            )
-        )
+        dataList = ArrayList(lessonsDao.getRecommendedLessons(getSemester()))
 
         //show lessons on recyclerView
         UtilityClass.showRecyclerData(
@@ -115,6 +64,14 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
             requireContext(),
             this
         )
+    }
+
+    private fun getSemester(): Int {
+        return when(val currentSemester = sharedPref.getInt(CURRENT_SEMESTER, 1)) {
+            1 - 7 -> currentSemester
+            8 - 12 -> 8
+            else -> 1
+        }
     }
 
     override fun onItemClicked(lesson: Lessons) {

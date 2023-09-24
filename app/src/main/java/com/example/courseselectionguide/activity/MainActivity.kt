@@ -153,8 +153,7 @@ class MainActivity : AppCompatActivity() {
                 LessonState(lessonStateName = getString(R.string.remained_lessons)),
                 LessonState(lessonStateName = getString(R.string.passed_lessons)),
                 LessonState(lessonStateName = getString(R.string.failed_lessons)),
-                LessonState(lessonStateName = getString(R.string.selected_lessons)),
-                LessonState(lessonStateName = getString(R.string.recommended_lessons)),
+                LessonState(lessonStateName = getString(R.string.selected_lessons))
             )
             lessonStateDao.insertAll(lessonStateList)
 

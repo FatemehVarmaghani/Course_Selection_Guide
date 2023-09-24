@@ -10,14 +10,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
+import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
+import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.DialogLessonDetailBinding
 import com.example.courseselectionguide.databinding.FragmentSelectedBinding
 
 class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
     private lateinit var binding: FragmentSelectedBinding
+    private lateinit var dataList: ArrayList<Lessons>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +31,9 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        //dao
+        lessonsDao = MainDatabase.getDatabase(requireContext()).lessonsDao
 
         //inflating menu
         binding.toolbarSelected.inflateMenu(R.menu.menu_selected_fragment)
@@ -47,63 +54,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         }
 
         //list of selected lessons
-        val dataList = arrayListOf(
-            Lessons(
-                lessonName = "ریاضی عمومی 1",
-                unitNumber = 3,
-                lessonTypeId = 3,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "فیزیک 1",
-                unitNumber = 3,
-                lessonTypeId = 3,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "فارسی عمومی",
-                unitNumber = 3,
-                lessonTypeId = 2,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "زبان عمومی",
-                unitNumber = 3,
-                lessonTypeId = 2,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "مبانی کامپیوتر و برنامه سازی",
-                unitNumber = 3,
-                lessonTypeId = 4,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonState = 1,
-                isFixed = true
-            ),
-            Lessons(
-                lessonName = "اندیش اسلامی 1",
-                unitNumber = 2,
-                lessonTypeId = 1,
-                isTheoretical = true,
-                recommendedSemester = 1,
-                lessonOrientationId = 1,
-                lessonState = 1,
-                isFixed = true
-            )
-        )
+        dataList = ArrayList(lessonsDao.getSelectedLessons())
 
         //show lessons on RecyclerView
         UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this)
