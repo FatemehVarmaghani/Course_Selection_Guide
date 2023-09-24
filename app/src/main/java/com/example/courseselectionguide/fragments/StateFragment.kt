@@ -61,6 +61,36 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
         binding.txtStateStudentState.text = getUserState()
 
         //pie chart
+        showPieChart(passedUnitsNumber, failedUnitsNumber, remainedUnitsNumber)
+
+        //click on buttons
+        binding.btnGotoPassedLessons.setOnClickListener {
+            goToActivity2(getString(R.string.passed_lessons), true)
+        }
+        binding.btnGotoFailedLessons.setOnClickListener {
+            goToActivity2(getString(R.string.failed_lessons), false)
+        }
+
+        //change user info
+        binding.btnChangeInfo.setOnClickListener {
+            //set user info to bundle and create dialog
+            val dialogEditInfo = EditDialog(this)
+            val bundle = Bundle()
+            bundle.putInt("current_semester", sharedPref.getInt(CURRENT_SEMESTER, 1))
+            bundle.putFloat("average", sharedPref.getFloat(AVERAGE, 17f))
+            bundle.putBoolean("has_failed", sharedPref.getBoolean(HAS_FAILED, false))
+            bundle.putBoolean("is_Senior", sharedPref.getBoolean(IS_SENIOR, false))
+            dialogEditInfo.arguments = bundle
+            dialogEditInfo.show(parentFragmentManager, "")
+
+        }
+    }
+
+    private fun showPieChart(
+        passedUnitsNumber: Int,
+        failedUnitsNumber: Int,
+        remainedUnitsNumber: Int
+    ) {
         pieChart = binding.pieChartState
         val pieEntries = arrayListOf(
             PieEntry(passedUnitsNumber.toFloat()),
@@ -85,36 +115,6 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
         }
         pieChart.animateY(1000)
         pieChart.invalidate()
-
-        //click on buttons
-        binding.btnGotoPassedLessons.setOnClickListener {
-            val intent = Intent(requireContext(), Activity2::class.java)
-            intent.putExtra("title", getString(R.string.passed_lessons))
-            intent.putExtra("isPassed", true)
-            intent.putExtra("isManual", false)
-            startActivity(intent)
-        }
-        binding.btnGotoFailedLessons.setOnClickListener {
-            val intent = Intent(requireContext(), Activity2::class.java)
-            intent.putExtra("title", getString(R.string.failed_lessons))
-            intent.putExtra("isPassed", false)
-            intent.putExtra("isManual", false)
-            startActivity(intent)
-        }
-
-        //change user info
-        binding.btnChangeInfo.setOnClickListener {
-            //set user info to bundle and create dialog
-            val dialogEditInfo = EditDialog(this)
-            val bundle = Bundle()
-            bundle.putInt("current_semester", sharedPref.getInt(CURRENT_SEMESTER, 1))
-            bundle.putFloat("average", sharedPref.getFloat(AVERAGE, 17f))
-            bundle.putBoolean("has_failed", sharedPref.getBoolean(HAS_FAILED, false))
-            bundle.putBoolean("is_Senior", sharedPref.getBoolean(IS_SENIOR, false))
-            dialogEditInfo.arguments = bundle
-            dialogEditInfo.show(parentFragmentManager, "")
-
-        }
     }
 
     private fun countPassedUnits(): Int {
@@ -126,7 +126,7 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
     }
 
     private fun getCurrentSemester(): String {
-        return when(sharedPref.getInt(CURRENT_SEMESTER, 1)) {
+        return when (sharedPref.getInt(CURRENT_SEMESTER, 1)) {
             1 -> "یک"
             2 -> "دو"
             3 -> "سه"
@@ -145,6 +145,14 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
 
     private fun getUserState(): String {
         return userStateDao.getStateName(sharedPref.getInt(USER_STATE, 2))
+    }
+
+    private fun goToActivity2(title: String, isPassed: Boolean) {
+        val intent = Intent(requireContext(), Activity2::class.java)
+        intent.putExtra("title", title)
+        intent.putExtra("isPassed", isPassed)
+        intent.putExtra("isManual", false)
+        startActivity(intent)
     }
 
     override fun sendUserInfo(

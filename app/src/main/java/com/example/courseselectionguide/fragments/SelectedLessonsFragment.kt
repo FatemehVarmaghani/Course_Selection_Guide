@@ -35,11 +35,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         binding.toolbarSelected.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.add_new_lesson -> {
-                    val intent = Intent(context, Activity2::class.java)
-                    intent.putExtra("title", getString(R.string.manual_selection))
-                    intent.putExtra("isManual", true)
-                    startActivity(intent)
-                    //send data to show remained lessons
+                    goToActivity2()
                     true
                 }
                 R.id.clear_selected_list -> {
@@ -112,6 +108,13 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         //show lessons on RecyclerView
         UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this)
 
+    }
+
+    private fun goToActivity2() {
+        val intent = Intent(context, Activity2::class.java)
+        intent.putExtra("title", getString(R.string.manual_selection))
+        intent.putExtra("isManual", true)
+        startActivity(intent)
     }
 
     override fun onItemClicked(lesson: Lessons) {
