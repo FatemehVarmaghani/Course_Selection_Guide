@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
@@ -14,6 +15,7 @@ import com.example.courseselectionguide.data.daos.LessonStateDao
 import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
 import com.example.courseselectionguide.data.daos.PrerequisitesDao
+import com.example.courseselectionguide.data.daos.SelectedLessonsDao
 import com.example.courseselectionguide.data.daos.UserStateDao
 import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Corequisites
@@ -22,6 +24,7 @@ import com.example.courseselectionguide.data.tables.LessonState
 import com.example.courseselectionguide.data.tables.LessonType
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.data.tables.Prerequisites
+import com.example.courseselectionguide.data.tables.SelectedLessons
 import com.example.courseselectionguide.data.tables.UserState
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
@@ -45,6 +48,7 @@ lateinit var lessonStateDao: LessonStateDao
 lateinit var prerequisitesDao: PrerequisitesDao
 lateinit var corequisitesDao: CorequisitesDao
 lateinit var userStateDao: UserStateDao
+lateinit var selectedLessonsDao: SelectedLessonsDao
 
 class MainActivity : AppCompatActivity() {
 
@@ -152,8 +156,7 @@ class MainActivity : AppCompatActivity() {
             val lessonStateList = arrayListOf(
                 LessonState(lessonStateName = getString(R.string.remained_lessons)),
                 LessonState(lessonStateName = getString(R.string.passed_lessons)),
-                LessonState(lessonStateName = getString(R.string.failed_lessons)),
-                LessonState(lessonStateName = getString(R.string.selected_lessons))
+                LessonState(lessonStateName = getString(R.string.failed_lessons))
             )
             lessonStateDao.insertAll(lessonStateList)
 

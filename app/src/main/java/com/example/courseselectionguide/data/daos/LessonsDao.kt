@@ -22,9 +22,6 @@ interface LessonsDao: BaseDao<Lessons> {
     @Query("select * from Lessons where lessonState = 3")
     fun getFailedLessons(): List<Lessons>
 
-    @Query("select * from Lessons where lessonState = 4")
-    fun getSelectedLessons(): List<Lessons>
-
     @Query("select * from Lessons where (lessonState = 1 or lessonState = 3) and recommendedSemester = :currentSemester")
     fun getRecommendedLessons(currentSemester: Int): List<Lessons>
 }

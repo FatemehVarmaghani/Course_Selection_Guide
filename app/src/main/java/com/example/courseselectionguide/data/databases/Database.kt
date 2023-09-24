@@ -10,6 +10,7 @@ import com.example.courseselectionguide.data.daos.LessonStateDao
 import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
 import com.example.courseselectionguide.data.daos.PrerequisitesDao
+import com.example.courseselectionguide.data.daos.SelectedLessonsDao
 import com.example.courseselectionguide.data.daos.UserStateDao
 import com.example.courseselectionguide.data.tables.Corequisites
 import com.example.courseselectionguide.data.tables.LessonOrientation
@@ -17,6 +18,7 @@ import com.example.courseselectionguide.data.tables.LessonState
 import com.example.courseselectionguide.data.tables.LessonType
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.data.tables.Prerequisites
+import com.example.courseselectionguide.data.tables.SelectedLessons
 import com.example.courseselectionguide.data.tables.UserState
 
 @Database(
@@ -29,7 +31,8 @@ import com.example.courseselectionguide.data.tables.UserState
         LessonState::class,
         Prerequisites::class,
         Corequisites::class,
-        UserState::class
+        UserState::class,
+        SelectedLessons::class
     ]
 )
 abstract class MainDatabase : RoomDatabase() {
@@ -42,6 +45,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract val prerequisitesDao: PrerequisitesDao
     abstract val corequisitesDao: CorequisitesDao
     abstract val userStateDao: UserStateDao
+    abstract val selectedLessonsDao: SelectedLessonsDao
 
     companion object {
 
