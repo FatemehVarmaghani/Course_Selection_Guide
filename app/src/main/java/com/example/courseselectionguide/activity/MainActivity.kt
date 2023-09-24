@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
@@ -30,18 +29,20 @@ import com.example.courseselectionguide.fragments.SelectedLessonsFragment
 import com.example.courseselectionguide.fragments.StateFragment
 import java.lang.Exception
 
+const val PRIMITIVE_DATA = "primitive_data"
+const val FIRST_RUNNING = "first_running"
+const val CURRENT_SEMESTER = "current_semester"
+const val AVERAGE = "average"
+const val HAS_FAILED = "has_failed"
+const val IS_SENIOR = "is_senior"
+const val USER_STATE = "user_state"
+
 lateinit var sharedPref: SharedPreferences
-//lateinit var lessonsList: List<Lessons>
 lateinit var lessonsDao: LessonsDao
-//lateinit var lessonTypeList: List<LessonType>
 lateinit var lessonTypeDao: LessonTypeDao
-//lateinit var lessonOrientationList: List<LessonOrientation>
 lateinit var lessonOrientationDao: LessonOrientationDao
-//lateinit var lessonStateList: List<LessonState>
 lateinit var lessonStateDao: LessonStateDao
-//lateinit var prerequisitesList: List<Prerequisites>
 lateinit var prerequisitesDao: PrerequisitesDao
-//lateinit var corequisitesList: List<Corequisites>
 lateinit var corequisitesDao: CorequisitesDao
 lateinit var userStateDao: UserStateDao
 
@@ -55,8 +56,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //checking entry activity
-        sharedPref = this.getSharedPreferences("primitive_data", Context.MODE_PRIVATE)
-        if (sharedPref.getBoolean("first_running", true)) {
+        sharedPref = this.getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+        if (sharedPref.getBoolean(FIRST_RUNNING, true)) {
             firstRun()
             val intent = Intent(this, DataEntryActivity::class.java)
             startActivity(intent)

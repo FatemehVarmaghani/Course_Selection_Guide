@@ -104,7 +104,8 @@ class EditDialog(private val editInfoEvent: EditInfoEvent) : DialogFragment() {
                                 DataEntryActivity.userState(
                                     newAverage!!,
                                     newHasFailed!!,
-                                    newIsSenior!!
+                                    newIsSenior!!,
+                                    newCurrentSemester
                                 )
                             )
                             editor.apply()

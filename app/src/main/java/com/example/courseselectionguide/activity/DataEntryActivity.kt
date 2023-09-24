@@ -67,17 +67,17 @@ class DataEntryActivity : AppCompatActivity() {
                         average = averageText!!.toFloat()
                         if (average!! in 0.0..20.0) {
                             //pass data to sharedPref
-                            editor.putInt("current_semester", currentSemester)
-                            editor.putFloat("average", average!!)
-                            editor.putBoolean("has_failed", hasFailed!!)
-                            editor.putBoolean("is_senior", isSenior!!)
+                            editor.putInt(CURRENT_SEMESTER, currentSemester)
+                            editor.putFloat(AVERAGE, average!!)
+                            editor.putBoolean(HAS_FAILED, hasFailed!!)
+                            editor.putBoolean(IS_SENIOR, isSenior!!)
                             editor.putInt(
-                                "user_state",
-                                userState(average!!, hasFailed!!, isSenior!!)
+                                USER_STATE,
+                                userState(average!!, hasFailed!!, isSenior!!, currentSemester)
                             )
                             editor.apply()
                             //going to the main activity
-                            editor.putBoolean("first_running", false).apply()
+                            editor.putBoolean(FIRST_RUNNING, false).apply()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -105,10 +105,12 @@ class DataEntryActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun userState(average: Float, failedLesson: Boolean, lastSemester: Boolean): Int {
+        fun userState(average: Float, failedLesson: Boolean, lastSemester: Boolean, currentSemester: Int): Int {
             return if (lastSemester) {
                 3
             } else if (failedLesson) {
+                2
+            } else if (currentSemester == 1) {
                 2
             } else if (average >= 17) {
                 1
