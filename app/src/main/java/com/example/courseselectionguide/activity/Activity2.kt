@@ -169,11 +169,6 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                         true
                     }
 
-                    R.id.add_manual_to_failed -> {
-                        Toast.makeText(this, "add manual to failed", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-
                     else -> false
                 }
             } else if (isPassed) {

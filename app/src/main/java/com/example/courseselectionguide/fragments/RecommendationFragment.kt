@@ -132,10 +132,6 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                     Toast.makeText(requireContext(), "add recommended to passed", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.add_recommended_to_failed -> {
-                    Toast.makeText(requireContext(), "add recommended to failed", Toast.LENGTH_SHORT).show()
-                    true
-                }
                 else -> false
             }
         }

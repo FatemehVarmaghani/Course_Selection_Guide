@@ -10,8 +10,4 @@
         android:id="@+id/add_manual_to_passed"
         android:title="@string/add_to_passed"/>
 
-    <item
-        android:id="@+id/add_manual_to_failed"
-        android:title="@string/add_to_failed"/>
-
 </menu>
