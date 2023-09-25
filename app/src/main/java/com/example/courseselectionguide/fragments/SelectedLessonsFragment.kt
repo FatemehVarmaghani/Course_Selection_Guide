@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
-import com.example.courseselectionguide.activity.selectedLessonsDao
+import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.databases.MainDatabase
@@ -34,7 +34,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //dao
-        selectedLessonsDao = MainDatabase.getDatabase(requireContext()).selectedLessonsDao
+        lessonsDao = MainDatabase.getDatabase(requireContext()).lessonsDao
 
         //inflating menu
         binding.toolbarSelected.inflateMenu(R.menu.menu_selected_fragment)
@@ -55,7 +55,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         }
 
         //list of selected lessons
-        dataList = ArrayList(selectedLessonsDao.getAllSelectedLessons())
+        dataList = ArrayList(lessonsDao.getSelectedLessons())
 
         //show lessons on RecyclerView
         UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this, R.menu.menu_item_selected_lesson)

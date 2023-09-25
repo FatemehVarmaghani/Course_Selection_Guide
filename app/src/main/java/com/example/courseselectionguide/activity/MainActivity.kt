@@ -14,7 +14,6 @@ import com.example.courseselectionguide.data.daos.LessonStateDao
 import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
 import com.example.courseselectionguide.data.daos.PrerequisitesDao
-import com.example.courseselectionguide.data.daos.SelectedLessonsDao
 import com.example.courseselectionguide.data.daos.UserStateDao
 import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Corequisites
@@ -46,7 +45,6 @@ lateinit var lessonStateDao: LessonStateDao
 lateinit var prerequisitesDao: PrerequisitesDao
 lateinit var corequisitesDao: CorequisitesDao
 lateinit var userStateDao: UserStateDao
-lateinit var selectedLessonsDao: SelectedLessonsDao
 
 class MainActivity : AppCompatActivity() {
 
@@ -154,7 +152,8 @@ class MainActivity : AppCompatActivity() {
             val lessonStateList = arrayListOf(
                 LessonState(lessonStateName = getString(R.string.remained_lessons)),
                 LessonState(lessonStateName = getString(R.string.passed_lessons)),
-                LessonState(lessonStateName = getString(R.string.failed_lessons))
+                LessonState(lessonStateName = getString(R.string.failed_lessons)),
+                LessonState(lessonStateName = getString(R.string.selected_lessons))
             )
             lessonStateDao.insertAll(lessonStateList)
 
@@ -167,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 3,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1,
+                    lessonState = 2,
                     isFixed = true
                 ),
                 Lessons(
@@ -176,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 3,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1,
+                    lessonState = 3,
                     isFixed = true
                 ),
                 Lessons(
@@ -185,7 +184,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 2,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 1,
+                    lessonState = 4,
                     isFixed = true
                 ),
                 Lessons(
