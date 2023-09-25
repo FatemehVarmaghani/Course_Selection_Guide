@@ -125,11 +125,14 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_recommended_to_selected -> {
-                    Toast.makeText(requireContext(), "add recommended to selected", Toast.LENGTH_SHORT).show()
+                    UtilityClass.addLessonToSelected(lesson, requireContext())
                     true
                 }
                 R.id.add_recommended_to_passed -> {
                     UtilityClass.addLessonToPassed(lesson, requireContext())
+                    true
+                }
+                R.id.add_recommended_to_failed -> {
                     true
                 }
                 else -> false

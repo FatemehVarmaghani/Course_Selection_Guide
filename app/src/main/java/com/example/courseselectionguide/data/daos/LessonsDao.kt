@@ -56,4 +56,12 @@ interface LessonsDao: BaseDao<Lessons> {
     //get lesson values
     @Query("select lessonState from Lessons where lessonId = :id")
     fun getLessonState(id: Int): Int
+
+    //get count
+    @Query("select count(*) from Lessons where lessonTypeId = 1 and lessonState = 4")
+    fun countSelectedIslamics(): Int
+    @Query("select count(*) from Lessons where lessonOrientationId = :orientationId and lessonState = 2")
+    fun countPassedLessonsByOrientation(orientationId: Int): Int
+    @Query("select count(*) from Lessons where isTheoretical = 0 and (lessonState = 2 or lessonState = 4) and lessonTypeId = :typeId")
+    fun countPassedOrSelectedPracticalLessonsByType(typeId: Int): Int
 }

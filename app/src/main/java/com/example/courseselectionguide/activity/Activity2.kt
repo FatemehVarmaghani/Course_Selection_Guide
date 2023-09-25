@@ -168,6 +168,10 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                         true
                     }
 
+                    R.id.add_manual_to_failed -> {
+                        true
+                    }
+
                     else -> false
                 }
             } else if (isPassed) {

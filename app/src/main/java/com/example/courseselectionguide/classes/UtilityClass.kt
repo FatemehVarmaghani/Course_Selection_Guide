@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.activity.corequisitesDao
+import com.example.courseselectionguide.activity.lessonTypeDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
 import com.example.courseselectionguide.adapter.AdapterLessons
@@ -65,10 +66,24 @@ class UtilityClass {
                 coIsChecked = true
             }
 
-            //no need to check for isFixed and orientation
+            //check required passed units (for project & internship)
+            var preUnitIsChecked = true
+            if (lesson.lessonId == 49) {
+                //for project
+                if (lessonsDao.getPassedLessons().size < 100) {
+                    preUnitIsChecked = false
+                    Toast.makeText(context, "صد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
+                }
+            } else if (lesson.lessonId == 50) {
+                //for internship
+                if (lessonsDao.getPassedLessons().size < 80) {
+                    preUnitIsChecked = false
+                    Toast.makeText(context, "هشتاد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
+                }
+            }
 
             //after checking all conditions, change it to passed:
-            if (preIsChecked && coIsChecked) {
+            if (preIsChecked && coIsChecked && preUnitIsChecked) {
                 lessonsDao.changeToPassed(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
             }
@@ -111,8 +126,59 @@ class UtilityClass {
                 coIsChecked = true
             }
 
+            //check general islamic condition
+            var islamicIsChecked = false
+            if (lesson.lessonTypeId == 1) {
+                if (lessonsDao.countSelectedIslamics() >= 1) {
+                    islamicIsChecked = false
+                    Toast.makeText(context, "هر ترم فقط یک درس عمومی اسلامی!", Toast.LENGTH_SHORT).show()
+                } else {
+                    islamicIsChecked = true
+                }
+            } else {
+                islamicIsChecked = true
+            }
+
+            //if not fixed: orin and type conditions
+            var isFixed = false
+            if (lesson.isFixed) {
+                isFixed = true
+            } else if (lesson.lessonTypeId == 1) {
+                if (lessonsDao.countPassedLessonsByOrientation(lesson.lessonOrientationId!!) >= 1) {
+                    isFixed = false
+                    Toast.makeText(context, "درس مشابه پاس شده", Toast.LENGTH_SHORT).show()
+                } else {
+                    isFixed = true
+                }
+            } else if (lesson.lessonTypeId == 7) {
+                if (lessonsDao.countPassedOrSelectedPracticalLessonsByType(lesson.lessonTypeId) >= 2) {
+                    isFixed = false
+                    Toast.makeText(context, "بیشتر از دو واحد اختیاری عملی لازم نیست", Toast.LENGTH_SHORT).show()
+                } else {
+                    isFixed = true
+                }
+            } else {
+                isFixed = true
+            }
+
+            //check required passed units (for project & internship)
+            var preUnitIsChecked = true
+            if (lesson.lessonId == 49) {
+                //for project
+                if (lessonsDao.getPassedLessons().size < 100) {
+                    preUnitIsChecked = false
+                    Toast.makeText(context, "صد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
+                }
+            } else if (lesson.lessonId == 50) {
+                //for internship
+                if (lessonsDao.getPassedLessons().size < 80) {
+                    preUnitIsChecked = false
+                    Toast.makeText(context, "هشتاد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             //after checking all conditions, change it to passed:
-            if (preIsChecked && coIsChecked) {
+            if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked) {
                 lessonsDao.changeToSelected(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
             }

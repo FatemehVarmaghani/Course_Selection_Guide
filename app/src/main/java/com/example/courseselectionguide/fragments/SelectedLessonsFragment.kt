@@ -126,10 +126,6 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                     UtilityClass.addLessonToPassed(lesson, requireContext())
                     true
                 }
-                R.id.add_selected_to_failed -> {
-                    Toast.makeText(requireContext(), "add selected to failed", Toast.LENGTH_SHORT).show()
-                    true
-                }
                 else -> false
             }
         }
