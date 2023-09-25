@@ -51,5 +51,11 @@
     <string name="excellent">ممتاز</string>
     <string name="normal">معمولی</string>
     <string name="senior">ترم آخر</string>
+    <string name="add_to_selected">افزودن درس به دروس انتخاب شده</string>
+    <string name="add_to_passed">افزودن درس به دروس گذرانده</string>
+    <string name="add_to_failed">افزودن درس به دروس رد/حذف شده</string>
+    <string name="remove_from_selected">حذف درس از لیست انتخاب شده</string>
+    <string name="remove_from_passed">حذف درس از لیست گذرانده</string>
+    <string name="remove_from_failed">حذف درس از لیست رد/حذف شده</string>
 
 </resources>

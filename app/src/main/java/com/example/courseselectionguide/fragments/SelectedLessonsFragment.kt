@@ -2,16 +2,15 @@ package com.example.courseselectionguide.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
-import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.selectedLessonsDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
@@ -59,7 +58,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         dataList = ArrayList(selectedLessonsDao.getAllSelectedLessons())
 
         //show lessons on RecyclerView
-        UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this)
+        UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this, R.menu.menu_item_selected_lesson)
 
     }
 
@@ -116,5 +115,23 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {}
+    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.remove_from_selected -> {
+                    Toast.makeText(requireContext(), "remove from selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.add_selected_to_passed -> {
+                    Toast.makeText(requireContext(), "add selected to passed", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.add_selected_to_failed -> {
+                    Toast.makeText(requireContext(), "add selected to failed", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 }

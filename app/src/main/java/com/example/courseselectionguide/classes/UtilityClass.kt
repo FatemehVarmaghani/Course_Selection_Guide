@@ -14,9 +14,10 @@ class UtilityClass {
             recycler: RecyclerView,
             list: ArrayList<Lessons>,
             context: Context,
-            itemEvents: AdapterLessons.ItemEvents
+            itemEvents: AdapterLessons.ItemEvents,
+            menuResId: Int
         ) {
-            val adapter = AdapterLessons(context, list, itemEvents)
+            val adapter = AdapterLessons(context, list, itemEvents, menuResId)
             recycler.adapter = adapter
             recycler.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

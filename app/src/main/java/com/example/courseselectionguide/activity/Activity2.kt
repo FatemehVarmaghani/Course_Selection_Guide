@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
@@ -18,6 +19,8 @@ import com.example.courseselectionguide.fragments.FilterDialog
 class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.FilterEvent {
     private lateinit var binding: Activity2Binding
     private lateinit var dataList: ArrayList<Lessons>
+    private var isManual = false
+    private var isPassed = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = Activity2Binding.inflate(layoutInflater)
@@ -41,21 +44,39 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         }
 
         //data for recyclerView
-        val isManual = intent.getBooleanExtra("isManual", true)
-        val isPassed = intent.getBooleanExtra("isPassed", true)
+        isManual = intent.getBooleanExtra("isManual", true)
+        isPassed = intent.getBooleanExtra("isPassed", true)
         lessonsDao = MainDatabase.getDatabase(this).lessonsDao
 
-        // check booleans and show the related list
-        dataList = if (isManual) {
-            ArrayList(lessonsDao.getRemainedLessons())
+        // check booleans: show the related list and item menu
+        if (isManual) {
+            dataList = ArrayList(lessonsDao.getRemainedLessons())
+            UtilityClass.showRecyclerData(
+                binding.recyclerManual,
+                dataList,
+                this,
+                this,
+                R.menu.menu_item_manual_select
+            )
         } else if (isPassed) {
-            ArrayList(lessonsDao.getPassedLessons())
+            dataList = ArrayList(lessonsDao.getPassedLessons())
+            UtilityClass.showRecyclerData(
+                binding.recyclerManual,
+                dataList,
+                this,
+                this,
+                R.menu.menu_item_passed_lesson
+            )
         } else {
-            ArrayList(lessonsDao.getFailedLessons())
+            dataList = ArrayList(lessonsDao.getFailedLessons())
+            UtilityClass.showRecyclerData(
+                binding.recyclerManual,
+                dataList,
+                this,
+                this,
+                R.menu.menu_item_failed_lesson
+            )
         }
-
-        //recyclerView for lessons
-        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -110,13 +131,42 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
 
     override fun onOptionsIconClicked(item: View, popupMenu: android.widget.PopupMenu) {
         popupMenu.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.remove_lesson_from_list -> {
-                    //remove the lesson from list
-                    true
-                }
+            if (isManual) {
+                when (it.itemId) {
+                    R.id.add_manual_to_selected -> {
+                        Toast.makeText(this, "add manual to selected", Toast.LENGTH_SHORT).show()
+                        true
+                    }
 
-                else -> false
+                    R.id.add_manual_to_passed -> {
+                        Toast.makeText(this, "add manual to passed", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                    R.id.add_manual_to_failed -> {
+                        Toast.makeText(this, "add manual to failed", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                    else -> false
+                }
+            } else if (isPassed) {
+                when (it.itemId) {
+                    R.id.remove_from_passed -> {
+                        Toast.makeText(this, "remove from passed", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                    else -> false
+                }
+            } else {
+                when (it.itemId) {
+                    R.id.remove_from_failed -> {
+                        Toast.makeText(this, "remove from failed", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> false
+                }
             }
         }
     }

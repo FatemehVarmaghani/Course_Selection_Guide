@@ -10,8 +10,14 @@ import com.example.courseselectionguide.R
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.CardLessonBinding
 
-class AdapterLessons(private val context: Context, private val itemList: ArrayList<Lessons>, private val itemEvents: ItemEvents) : RecyclerView.Adapter<AdapterLessons.ViewHolderLessons>() {
-    inner class ViewHolderLessons(private val binding: CardLessonBinding) : RecyclerView.ViewHolder(binding.root) {
+class AdapterLessons(
+    private val context: Context,
+    private val itemList: ArrayList<Lessons>,
+    private val itemEvents: ItemEvents,
+    private val menuResId: Int
+) : RecyclerView.Adapter<AdapterLessons.ViewHolderLessons>() {
+    inner class ViewHolderLessons(private val binding: CardLessonBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         //onBindViewHolder's job
         fun onBindItemList(position: Int) {
@@ -26,7 +32,7 @@ class AdapterLessons(private val context: Context, private val itemList: ArrayLi
             //click on item's options menu
             binding.iconOptionLesson.setOnClickListener {
                 val popupMenu = PopupMenu(context, binding.root)
-                popupMenu.inflate(R.menu.menu_lesson_item)
+                popupMenu.inflate(menuResId)
                 popupMenu.show()
                 itemEvents.onOptionsIconClicked(binding.root, popupMenu)
             }

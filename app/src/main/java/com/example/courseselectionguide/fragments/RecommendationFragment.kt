@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.CURRENT_SEMESTER
@@ -42,12 +43,12 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         //menu listener
         binding.toolbarRecommended.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.add_recommended_to_selected -> {
-                    //add current recommended list to selected and clear recommended list
+                R.id.add_recommended_list_to_selected -> {
+                    Toast.makeText(requireContext(), "add recommended list to selected", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.show_new_recommended_list -> {
-                    //clear current recommended list and show a new one
+                    Toast.makeText(requireContext(), "show new recommended list", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -62,7 +63,8 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
             binding.recyclerRecommendation,
             dataList,
             requireContext(),
-            this
+            this,
+            R.menu.menu_item_recommended_lesson
         )
     }
 
@@ -119,6 +121,24 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {}
+    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.add_recommended_to_selected -> {
+                    Toast.makeText(requireContext(), "add recommended to selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.add_recommended_to_passed -> {
+                    Toast.makeText(requireContext(), "add recommended to passed", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.add_recommended_to_failed -> {
+                    Toast.makeText(requireContext(), "add recommended to failed", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
 }
