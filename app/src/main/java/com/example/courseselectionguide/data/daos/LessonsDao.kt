@@ -13,7 +13,7 @@ interface LessonsDao: BaseDao<Lessons> {
     @Query("select * from Lessons")
     fun getAllLessons(): List<Lessons>
 
-    @Query("select * from Lessons where lessonState = 1")
+    @Query("select * from Lessons where lessonState = 1 or lessonState = 3")
     fun getRemainedLessons(): List<Lessons>
 
     @Query("select * from Lessons where lessonState = 2")
@@ -24,4 +24,13 @@ interface LessonsDao: BaseDao<Lessons> {
 
     @Query("select * from Lessons where (lessonState = 1 or lessonState = 3) and recommendedSemester = :currentSemester")
     fun getRecommendedLessons(currentSemester: Int): List<Lessons>
+
+    @Query("select * from Lessons where lessonName like '%' || :searching || '%'")
+    fun searchOnRemained(searching: String): List<Lessons>
+
+    @Query("select * from Lessons where lessonState = 2 and lessonName like '%' || :searching || '%'")
+    fun searchOnPassed(searching: String): List<Lessons>
+
+    @Query("select * from Lessons where lessonState = 3 and lessonName like '%' || :searching || '%'")
+    fun searchOnFailed(searching: String): List<Lessons>
 }

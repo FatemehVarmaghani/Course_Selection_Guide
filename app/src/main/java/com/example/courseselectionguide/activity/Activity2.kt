@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
@@ -19,10 +20,13 @@ import com.example.courseselectionguide.fragments.FilterDialog
 class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.FilterEvent {
     private lateinit var binding: Activity2Binding
     private lateinit var dataList: ArrayList<Lessons>
+    private var menuId = R.menu.menu_item_manual_select
     private var isManual = false
     private var isPassed = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //inflating layout
         binding = Activity2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,37 +55,53 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         // check booleans: show the related list and item menu
         if (isManual) {
             dataList = ArrayList(lessonsDao.getRemainedLessons())
-            UtilityClass.showRecyclerData(
-                binding.recyclerManual,
-                dataList,
-                this,
-                this,
-                R.menu.menu_item_manual_select
-            )
+            menuId = R.menu.menu_item_manual_select
         } else if (isPassed) {
             dataList = ArrayList(lessonsDao.getPassedLessons())
-            UtilityClass.showRecyclerData(
-                binding.recyclerManual,
-                dataList,
-                this,
-                this,
-                R.menu.menu_item_passed_lesson
-            )
+            menuId = R.menu.menu_item_passed_lesson
         } else {
             dataList = ArrayList(lessonsDao.getFailedLessons())
-            UtilityClass.showRecyclerData(
-                binding.recyclerManual,
-                dataList,
-                this,
-                this,
-                R.menu.menu_item_failed_lesson
-            )
+            menuId = R.menu.menu_item_failed_lesson
         }
+        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this, menuId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu_activity2, menu)
+
+        //get searchView items
+        val searchItem = menu?.findItem(R.id.search_lesson)
+        val searchView = searchItem?.actionView as SearchView
+
+        //action for query
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchOnDataBase(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchOnDataBase(newText)
+                return true
+            }
+        })
+
         return true
+    }
+
+    private fun searchOnDataBase(searchText: String?) {
+        if (!searchText.isNullOrEmpty()) {
+            val searchedList: List<Lessons> = if (isManual) {
+                lessonsDao.searchOnRemained(searchText)
+            } else if (isPassed) {
+                lessonsDao.searchOnPassed(searchText)
+            } else {
+                lessonsDao.searchOnFailed(searchText)
+            }
+            UtilityClass.showRecyclerData(binding.recyclerManual, ArrayList(searchedList), this, this, menuId)
+        } else {
+            UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this, menuId)
+        }
     }
 
     override fun onItemClicked(lesson: Lessons) {
@@ -165,6 +185,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                         Toast.makeText(this, "remove from failed", Toast.LENGTH_SHORT).show()
                         true
                     }
+
                     else -> false
                 }
             }

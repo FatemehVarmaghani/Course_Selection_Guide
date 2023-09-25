@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
@@ -24,7 +23,6 @@ import com.example.courseselectionguide.data.tables.LessonState
 import com.example.courseselectionguide.data.tables.LessonType
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.data.tables.Prerequisites
-import com.example.courseselectionguide.data.tables.SelectedLessons
 import com.example.courseselectionguide.data.tables.UserState
 import com.example.courseselectionguide.databinding.ActivityMainBinding
 import com.example.courseselectionguide.fragments.RecommendationFragment
