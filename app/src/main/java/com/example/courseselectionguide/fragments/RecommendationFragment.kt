@@ -121,7 +121,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {
+    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu, lesson: Lessons) {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_recommended_to_selected -> {
@@ -129,7 +129,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                     true
                 }
                 R.id.add_recommended_to_passed -> {
-                    Toast.makeText(requireContext(), "add recommended to passed", Toast.LENGTH_SHORT).show()
+                    UtilityClass.addLessonToPassed(lesson, requireContext())
                     true
                 }
                 else -> false

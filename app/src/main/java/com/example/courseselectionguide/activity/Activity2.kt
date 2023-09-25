@@ -2,7 +2,6 @@ package com.example.courseselectionguide.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
@@ -155,17 +154,17 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked(item: View, popupMenu: android.widget.PopupMenu) {
+    override fun onOptionsIconClicked(item: View, popupMenu: android.widget.PopupMenu, lesson: Lessons) {
         popupMenu.setOnMenuItemClickListener {
             if (isManual) {
                 when (it.itemId) {
                     R.id.add_manual_to_selected -> {
-                        Toast.makeText(this, "add manual to selected", Toast.LENGTH_SHORT).show()
+                        UtilityClass.addLessonToSelected(lesson, this)
                         true
                     }
 
                     R.id.add_manual_to_passed -> {
-                        Toast.makeText(this, "add manual to passed", Toast.LENGTH_SHORT).show()
+                        UtilityClass.addLessonToPassed(lesson, this)
                         true
                     }
 
@@ -190,6 +189,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                     else -> false
                 }
             }
+            //go to fragments or reload activity
         }
     }
 

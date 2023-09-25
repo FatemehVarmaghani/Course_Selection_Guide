@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.example.courseselectionguide.R
 import com.example.courseselectionguide.data.tables.Lessons
 import com.example.courseselectionguide.databinding.CardLessonBinding
 
@@ -34,7 +33,7 @@ class AdapterLessons(
                 val popupMenu = PopupMenu(context, binding.root)
                 popupMenu.inflate(menuResId)
                 popupMenu.show()
-                itemEvents.onOptionsIconClicked(binding.root, popupMenu)
+                itemEvents.onOptionsIconClicked(binding.root, popupMenu, itemList[position])
             }
         }
     }
@@ -54,6 +53,6 @@ class AdapterLessons(
 
     interface ItemEvents {
         fun onItemClicked(lesson: Lessons)
-        fun onOptionsIconClicked(item: View, popupMenu: PopupMenu)
+        fun onOptionsIconClicked(item: View, popupMenu: PopupMenu, lesson: Lessons)
     }
 }

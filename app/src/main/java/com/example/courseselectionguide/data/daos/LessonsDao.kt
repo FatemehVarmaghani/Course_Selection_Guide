@@ -11,7 +11,9 @@ interface LessonsDao: BaseDao<Lessons> {
     @Insert
     fun insertAllLessons(list: List<Lessons>)
 
-    //get all data
+    //get data
+    @Query("select * from Lessons where lessonId = :id")
+    fun getLesson(id: Int): Lessons
     @Query("select * from Lessons")
     fun getAllLessons(): List<Lessons>
 
@@ -44,4 +46,14 @@ interface LessonsDao: BaseDao<Lessons> {
     fun filterPassed(typeId: Int, isTheo: Boolean): List<Lessons>
     @Query("select * from Lessons where lessonState = 3 and lessonTypeId = :typeId and isTheoretical = :isTheo")
     fun filterFailed(typeId: Int, isTheo: Boolean): List<Lessons>
+
+    //change lesson state
+    @Query("update Lessons set lessonState = 2 where lessonId = :id")
+    fun changeToPassed(id: Int)
+    @Query("update Lessons set lessonState = 4 where lessonId = :id")
+    fun changeToSelected(id: Int)
+
+    //get lesson values
+    @Query("select lessonState from Lessons where lessonId = :id")
+    fun getLessonState(id: Int): Int
 }

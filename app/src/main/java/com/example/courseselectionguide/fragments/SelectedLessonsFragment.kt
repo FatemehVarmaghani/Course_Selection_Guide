@@ -115,7 +115,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         lessonInfoDialog.create().show()
     }
 
-    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu) {
+    override fun onOptionsIconClicked(item: View, popupMenu: PopupMenu, lesson: Lessons) {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.remove_from_selected -> {
@@ -123,7 +123,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                     true
                 }
                 R.id.add_selected_to_passed -> {
-                    Toast.makeText(requireContext(), "add selected to passed", Toast.LENGTH_SHORT).show()
+                    UtilityClass.addLessonToPassed(lesson, requireContext())
                     true
                 }
                 R.id.add_selected_to_failed -> {
