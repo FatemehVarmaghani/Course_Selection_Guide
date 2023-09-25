@@ -98,7 +98,13 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else {
                 lessonsDao.searchOnFailed(searchText)
             }
-            UtilityClass.showRecyclerData(binding.recyclerManual, ArrayList(searchedList), this, this, menuId)
+            UtilityClass.showRecyclerData(
+                binding.recyclerManual,
+                ArrayList(searchedList),
+                this,
+                this,
+                menuId
+            )
         } else {
             UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this, menuId)
         }
@@ -192,7 +198,14 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         }
     }
 
-    override fun sendFilterData(lessonTypeId: Int, unitTypeId: Int) {
-        //filter the data using these arguments
+    override fun sendFilterData(lessonTypeId: Int, isTheoretical: Boolean) {
+        val filteredData = if (isManual) {
+            lessonsDao.filterRemained(lessonTypeId, isTheoretical)
+        } else if (isPassed) {
+            lessonsDao.filterPassed(lessonTypeId, isTheoretical)
+        } else {
+            lessonsDao.filterFailed(lessonTypeId, isTheoretical)
+        }
+        UtilityClass.showRecyclerData(binding.recyclerManual, ArrayList(filteredData), this, this, menuId)
     }
 }
