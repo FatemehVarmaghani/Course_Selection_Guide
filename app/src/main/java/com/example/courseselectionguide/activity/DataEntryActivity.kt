@@ -1,6 +1,7 @@
 package com.example.courseselectionguide.activity
 
 import android.content.Intent
+import android.content.SharedPreferences.Editor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.NumberPicker
@@ -61,40 +62,59 @@ class DataEntryActivity : AppCompatActivity() {
                 Toast.makeText(this, "ترم یک هستید یا ترم آخر؟!", Toast.LENGTH_SHORT).show()
             } else if (currentSemester == 1) {
                 averageText = "20"
-
-                if (!averageText.isNullOrEmpty() && hasFailed != null && isSenior != null) {
-                    try {
-                        average = averageText!!.toFloat()
-                        if (average!! in 0.0..20.0) {
-                            //pass data to sharedPref
-                            editor.putInt(CURRENT_SEMESTER, currentSemester)
-                            editor.putFloat(AVERAGE, average!!)
-                            editor.putBoolean(HAS_FAILED, hasFailed!!)
-                            editor.putBoolean(IS_SENIOR, isSenior!!)
-                            editor.putInt(
-                                USER_STATE,
-                                userState(average!!, hasFailed!!, isSenior!!, currentSemester)
-                            )
-                            editor.apply()
-                            //going to the main activity
-                            editor.putBoolean(FIRST_RUNNING, false).apply()
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(this, "معدل باید بین 0 و 20 باشد!", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } catch (e: NumberFormatException) {
-                        Toast.makeText(this, "معدل خود را درست وارد کنید!", Toast.LENGTH_SHORT)
+                try {
+                    average = averageText!!.toFloat()
+                    //pass data to sharedPref
+                    passDataToSharedPref(currentSemester, average!!, hasFailed!!, isSenior!!, editor)
+                    //going to main activity
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "معدل خود را درست وارد کنید!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } else if (!averageText.isNullOrEmpty() && hasFailed != null && isSenior != null) {
+                try {
+                    average = averageText!!.toFloat()
+                    if (average!! in 0.0..20.0) {
+                        //pass data to sharedPref
+                        passDataToSharedPref(currentSemester, average!!, hasFailed!!, isSenior!!, editor)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "معدل باید بین 0 و 20 باشد!", Toast.LENGTH_SHORT)
                             .show()
                     }
-                } else {
-                    Toast.makeText(this, "همه اطلاعات را وارد کنید!", Toast.LENGTH_SHORT).show()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "معدل خود را درست وارد کنید!", Toast.LENGTH_SHORT)
+                        .show()
                 }
+            } else {
+                Toast.makeText(this, "همه اطلاعات را وارد کنید!", Toast.LENGTH_SHORT).show()
             }
         }
 
+    }
+
+    private fun passDataToSharedPref(
+        currentSemester: Int,
+        average: Float,
+        hasFailed: Boolean,
+        isSenior: Boolean,
+        editor: Editor
+    ) {
+        editor.putInt(CURRENT_SEMESTER, currentSemester)
+        editor.putFloat(AVERAGE, average)
+        editor.putBoolean(HAS_FAILED, hasFailed)
+        editor.putBoolean(IS_SENIOR, isSenior)
+        editor.putInt(
+            USER_STATE,
+            userState(average, hasFailed, isSenior, currentSemester)
+        )
+        editor.putBoolean(FIRST_RUNNING, false)
+        editor.apply()
     }
 
     private fun numberPicker(): NumberPicker {
@@ -105,7 +125,12 @@ class DataEntryActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun userState(average: Float, failedLesson: Boolean, lastSemester: Boolean, currentSemester: Int): Int {
+        fun userState(
+            average: Float,
+            failedLesson: Boolean,
+            lastSemester: Boolean,
+            currentSemester: Int
+        ): Int {
             return if (lastSemester) {
                 3
             } else if (failedLesson) {

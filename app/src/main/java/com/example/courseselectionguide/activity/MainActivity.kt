@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 3,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 2,
+                    lessonState = 1,
                     isFixed = true
                 ),
                 Lessons(
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 3,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 3,
+                    lessonState = 1,
                     isFixed = true
                 ),
                 Lessons(
@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
                     lessonTypeId = 2,
                     isTheoretical = true,
                     recommendedSemester = 1,
-                    lessonState = 4,
+                    lessonState = 1,
                     isFixed = true
                 ),
                 Lessons(

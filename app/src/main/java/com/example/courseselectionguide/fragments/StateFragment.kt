@@ -74,14 +74,14 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
         //change user info
         binding.btnChangeInfo.setOnClickListener {
             //set user info to bundle and create dialog
-            val dialogEditInfo = EditDialog(this)
-            val bundle = Bundle()
-            bundle.putInt("current_semester", sharedPref.getInt(CURRENT_SEMESTER, 1))
-            bundle.putFloat("average", sharedPref.getFloat(AVERAGE, 17f))
-            bundle.putBoolean("has_failed", sharedPref.getBoolean(HAS_FAILED, false))
-            bundle.putBoolean("is_Senior", sharedPref.getBoolean(IS_SENIOR, false))
-            dialogEditInfo.arguments = bundle
-            dialogEditInfo.show(parentFragmentManager, "")
+//            val dialogEditInfo = EditDialog(this)
+//            val bundle = Bundle()
+//            bundle.putInt("current_semester", sharedPref.getInt(CURRENT_SEMESTER, 1))
+//            bundle.putFloat("average", sharedPref.getFloat(AVERAGE, 17f))
+//            bundle.putBoolean("has_failed", sharedPref.getBoolean(HAS_FAILED, false))
+//            bundle.putBoolean("is_Senior", sharedPref.getBoolean(IS_SENIOR, false))
+//            dialogEditInfo.arguments = bundle
+//            dialogEditInfo.show(parentFragmentManager, "")
 
         }
     }
