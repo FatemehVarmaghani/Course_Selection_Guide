@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -54,20 +55,18 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         binding.toolbarRecommended.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_recommended_list_to_selected -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "add recommended list to selected",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    for (eachLesson in dataList) {
+                        UtilityClass.addLessonToSelected(eachLesson, requireContext())
+                    }
+                    loadRecommendedList(dataList[0].recommendedSemester)
                     true
                 }
 
-                R.id.show_new_recommended_list -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "show new recommended list",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                R.id.add_recommended_list_to_passed -> {
+                    for (eachLesson in dataList) {
+                        UtilityClass.addLessonToPassed(eachLesson, requireContext())
+                    }
+                    loadRecommendedList(dataList[0].recommendedSemester)
                     true
                 }
 
@@ -75,20 +74,19 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
             }
         }
 
+
         //data for textViews
         sharedPref = requireContext().getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
-        binding.txtRecommendedCurrentSemester.text = getCurrentSemester()
-        binding.txtRecommendationUserState.text = userStateDao.getStateName(
-            sharedPref.getInt(
-                USER_STATE, 2
-            )
-        )
+        numberPicker().setOnValueChangedListener { _, _, newVal ->
+            loadRecommendedList(getSemester(newVal))
+        }
 
         //list of selected lessons
-        dataList = ArrayList(lessonsDao.getRecommendedLessons(getSemester(sharedPref.getInt(CURRENT_SEMESTER, 1))))
-        Log.v("sharedPref", sharedPref.getInt(CURRENT_SEMESTER, 1).toString())
-        Log.v("getSemester", getSemester(sharedPref.getInt(CURRENT_SEMESTER, 1)).toString())
+        loadRecommendedList(getSemester(numberPicker().value))
+    }
 
+    private fun loadRecommendedList(semester: Int) {
+        dataList = ArrayList(lessonsDao.getRecommendedLessons(semester))
         //show lessons on recyclerView
         UtilityClass.showRecyclerData(
             binding.recyclerRecommendation,
@@ -105,6 +103,14 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
             in 8 .. 12 -> 8
             else -> -1
         }
+    }
+
+    private fun numberPicker(): NumberPicker {
+        val numberPicker = binding.numberPickerRecommendedSemester
+        numberPicker.minValue = 1
+        numberPicker.maxValue = 12
+        numberPicker.value = sharedPref.getInt(CURRENT_SEMESTER, 1)
+        return numberPicker
     }
 
     private fun getCurrentSemester(): String {

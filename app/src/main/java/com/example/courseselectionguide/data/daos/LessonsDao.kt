@@ -70,4 +70,10 @@ interface LessonsDao: BaseDao<Lessons> {
     fun countPassedOrSelectedPracticalLessonsByType(typeId: Int): Int
     @Query("select count(*) from Lessons where lessonState = 4 and isTheoretical = 1")
     fun countTheoreticalSelected(): Int
+    //count units
+    @Query("select sum(unitNumber) from Lessons where lessonState = :stateId and isTheoretical = 1")
+    fun countTheoUnits(stateId: Int): Int
+
+    @Query("select sum(unitNumber) from Lessons where lessonState = :stateId and isTheoretical = 0")
+    fun countPracUnits(stateId: Int): Int
 }

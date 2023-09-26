@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
-import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.PRIMITIVE_DATA
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
@@ -52,7 +51,12 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                     true
                 }
                 R.id.clear_selected_list -> {
-                    //all of the selected list will be deleted
+                    for (eachLesson in dataList) {
+                        UtilityClass.changeSelectedToRemained(eachLesson, requireContext())
+                        updateRecycler()
+                        updateTextViews()
+                    }
+
                     true
                 }
                 else -> false
@@ -60,19 +64,30 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         }
 
         //data for textViews
+        updateTextViews()
+
+        //list of selected lessons & show on recycler
+       updateRecycler()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateRecycler()
+        updateTextViews()
+    }
+
+    private fun updateTextViews() {
         sharedPref = requireContext().getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
-        val allSelectedNumber = lessonsDao.getSelectedLessons().size
-        val theoSelectedNumber = lessonsDao.countTheoreticalSelected()
-        binding.txtSelectedAllUnitsSum.text = allSelectedNumber.toString()
-        binding.txtSelectedTheoreticalUnitsSum.text = theoSelectedNumber.toString()
-        binding.txtSelectedPracticalUnitsSum.text = (allSelectedNumber - theoSelectedNumber).toString()
+        val pracSelectedUnitNumber = lessonsDao.countPracUnits(4)
+        val theoSelectedUnitNumber = lessonsDao.countTheoUnits(4)
+        binding.txtSelectedAllUnitsSum.text = (pracSelectedUnitNumber + theoSelectedUnitNumber).toString()
+        binding.txtSelectedTheoreticalUnitsSum.text = theoSelectedUnitNumber.toString()
+        binding.txtSelectedPracticalUnitsSum.text = pracSelectedUnitNumber.toString()
+    }
 
-        //list of selected lessons
+    private fun updateRecycler() {
         dataList = ArrayList(lessonsDao.getSelectedLessons())
-
-        //show lessons on RecyclerView
         UtilityClass.showRecyclerData(binding.recyclerSelected, dataList, requireContext(), this, R.menu.menu_item_selected_lesson)
-
     }
 
     private fun goToActivity2() {
@@ -147,11 +162,15 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                 R.id.remove_from_selected -> {
                     //lessonState changes from selected to remained
                     UtilityClass.changeSelectedToRemained(lesson, requireContext())
+                    updateRecycler()
+                    updateTextViews()
                     true
                 }
                 R.id.add_selected_to_passed -> {
                     //lessonState changes from selected to passed
                     UtilityClass.addLessonToPassed(lesson, requireContext())
+                    updateRecycler()
+                    updateTextViews()
                     true
                 }
                 else -> false

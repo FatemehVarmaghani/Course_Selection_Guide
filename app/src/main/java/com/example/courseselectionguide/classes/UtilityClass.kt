@@ -88,7 +88,6 @@ class UtilityClass {
             if (preIsChecked && coIsChecked && preUnitIsChecked) {
                 lessonsDao.changeToPassed(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
-                goToMainActivity(context)
             }
         }
 
@@ -184,7 +183,6 @@ class UtilityClass {
             if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked) {
                 lessonsDao.changeToSelected(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
-                goToMainActivity(context)
             }
         }
 
@@ -211,7 +209,6 @@ class UtilityClass {
             if (checked) {
                 lessonsDao.changeToRemained(lesson.lessonId)
                 Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
-                goToMainActivity(context)
             }
         }
 
@@ -233,7 +230,6 @@ class UtilityClass {
             if (checked) {
                 lessonsDao.changeToRemained(lesson.lessonId)
                 Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
-                goToMainActivity(context)
             }
         }
 
@@ -255,7 +251,6 @@ class UtilityClass {
 
             //change lesson state
             lessonsDao.changeToRemained(lesson.lessonId)
-            goToMainActivity(context)
         }
 
         fun addLessonToFailed(lesson: Lessons, context: Context) {
@@ -277,13 +272,12 @@ class UtilityClass {
             }
             lessonsDao.changeToFailed(lesson.lessonId)
             Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
-            goToMainActivity(context)
         }
 
-        private fun goToMainActivity(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
-        }
+//        fun goToMainActivity(context: Context) {
+//            val intent = Intent(context, MainActivity::class.java)
+//            context.startActivity(intent)
+//        }
 
     }//end of companion object
 
