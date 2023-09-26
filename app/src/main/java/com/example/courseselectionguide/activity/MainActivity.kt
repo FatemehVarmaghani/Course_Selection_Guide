@@ -854,7 +854,8 @@ class MainActivity : AppCompatActivity() {
             val userStateList = arrayListOf(
                 UserState(stateName = getString(R.string.excellent)),
                 UserState(stateName = getString(R.string.normal)),
-                UserState(stateName = getString(R.string.senior))
+                UserState(stateName = getString(R.string.senior)),
+                UserState(stateName = getString(R.string.conditional))
             )
             userStateDao.insertAll(userStateList)
 

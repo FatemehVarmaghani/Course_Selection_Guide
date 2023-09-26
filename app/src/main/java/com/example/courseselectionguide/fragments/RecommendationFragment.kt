@@ -212,4 +212,17 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         }
     }
 
+    companion object {
+        fun getMaxUnitNumber(context: Context): Int {
+            sharedPref = context.getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+            return when (sharedPref.getInt(USER_STATE, 1)) {
+                1 -> 24
+                2 -> 20
+                3 -> 25
+                4 -> 14
+                else -> 20
+            }
+        }
+    }
+
 }

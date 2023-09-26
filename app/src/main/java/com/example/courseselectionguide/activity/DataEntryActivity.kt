@@ -133,14 +133,14 @@ class DataEntryActivity : AppCompatActivity() {
         ): Int {
             return if (lastSemester) {
                 3
-            } else if (failedLesson) {
-                2
             } else if (currentSemester == 1) {
                 2
-            } else if (average >= 17) {
+            } else if (average >= 17 && !failedLesson) {
                 1
-            } else {
+            } else if (average >= 12){
                 2
+            } else {
+                4
             }
         }
     }

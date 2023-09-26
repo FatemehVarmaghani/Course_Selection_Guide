@@ -57,5 +57,6 @@
     <string name="remove_from_selected">حذف درس از لیست انتخاب شده</string>
     <string name="remove_from_passed">حذف درس از لیست گذرانده</string>
     <string name="remove_from_failed">حذف درس از لیست رد/حذف شده</string>
+    <string name="conditional">مشروطی</string>
 
 </resources>
