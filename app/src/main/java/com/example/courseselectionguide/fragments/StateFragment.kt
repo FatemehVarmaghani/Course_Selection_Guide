@@ -13,6 +13,7 @@ import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.AVERAGE
 import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.activity.CURRENT_SEMESTER
+import com.example.courseselectionguide.activity.DataEntryActivity
 import com.example.courseselectionguide.activity.HAS_FAILED
 import com.example.courseselectionguide.activity.IS_SENIOR
 import com.example.courseselectionguide.activity.PRIMITIVE_DATA
@@ -31,6 +32,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 class StateFragment : Fragment(), EditDialog.EditInfoEvent {
     private lateinit var binding: FragmentStateBinding
     private lateinit var pieChart: PieChart
+    private lateinit var dialogEditInfo: EditDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,39 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
 
         //variables for user info
         sharedPref = requireContext().getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+
+        //set data
+        setData()
+
+        //click on buttons
+        binding.btnGotoPassedLessons.setOnClickListener {
+            goToActivity2(getString(R.string.passed_lessons), true)
+        }
+        binding.btnGotoFailedLessons.setOnClickListener {
+            goToActivity2(getString(R.string.failed_lessons), false)
+        }
+
+        //change user info
+        binding.btnChangeInfo.setOnClickListener {
+            //set user info to bundle and create dialog
+            dialogEditInfo = EditDialog(this)
+            val bundle = Bundle()
+            bundle.putInt(CURRENT_SEMESTER, sharedPref.getInt(CURRENT_SEMESTER, 1))
+            bundle.putFloat(AVERAGE, sharedPref.getFloat(AVERAGE, 17f))
+            bundle.putBoolean(HAS_FAILED, sharedPref.getBoolean(HAS_FAILED, false))
+            bundle.putBoolean(IS_SENIOR, sharedPref.getBoolean(IS_SENIOR, false))
+            dialogEditInfo.arguments = bundle
+            dialogEditInfo.show(parentFragmentManager, "")
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setData()
+    }
+
+    private fun setData() {
         val passedUnitsNumber = countPassedUnits()
         val failedUnitsNumber = countFailedUnits()
         val remainedUnitsNumber = 144 - passedUnitsNumber
@@ -62,28 +97,6 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
 
         //pie chart
         showPieChart(passedUnitsNumber, failedUnitsNumber, remainedUnitsNumber)
-
-        //click on buttons
-        binding.btnGotoPassedLessons.setOnClickListener {
-            goToActivity2(getString(R.string.passed_lessons), true)
-        }
-        binding.btnGotoFailedLessons.setOnClickListener {
-            goToActivity2(getString(R.string.failed_lessons), false)
-        }
-
-        //change user info
-        binding.btnChangeInfo.setOnClickListener {
-            //set user info to bundle and create dialog
-//            val dialogEditInfo = EditDialog(this)
-//            val bundle = Bundle()
-//            bundle.putInt("current_semester", sharedPref.getInt(CURRENT_SEMESTER, 1))
-//            bundle.putFloat("average", sharedPref.getFloat(AVERAGE, 17f))
-//            bundle.putBoolean("has_failed", sharedPref.getBoolean(HAS_FAILED, false))
-//            bundle.putBoolean("is_Senior", sharedPref.getBoolean(IS_SENIOR, false))
-//            dialogEditInfo.arguments = bundle
-//            dialogEditInfo.show(parentFragmentManager, "")
-
-        }
     }
 
     private fun showPieChart(
@@ -161,7 +174,15 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
         hasFailed: Boolean,
         isSenior: Boolean
     ) {
-        Toast.makeText(context, "sendUserInfo has worked!", Toast.LENGTH_SHORT).show()
+        val editor = sharedPref.edit()
+        editor.putInt(CURRENT_SEMESTER, currentSemester)
+        editor.putFloat(AVERAGE, average)
+        editor.putBoolean(HAS_FAILED, hasFailed)
+        editor.putBoolean(IS_SENIOR, isSenior)
+        editor.putInt(USER_STATE, DataEntryActivity.userState(average, hasFailed, isSenior, currentSemester))
+        editor.apply()
+        setData()
+        dialogEditInfo.dismiss()
     }
 
 }
