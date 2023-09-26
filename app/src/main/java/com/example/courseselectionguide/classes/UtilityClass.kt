@@ -1,9 +1,12 @@
 package com.example.courseselectionguide.classes
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.courseselectionguide.activity.Activity2
+import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
@@ -50,7 +53,7 @@ class UtilityClass {
 
             //check corequisites
             var coIsChecked = false
-            val corequisiteRelations = corequisitesDao.getCorequisites(lesson.lessonId)
+            val corequisiteRelations = corequisitesDao.getCorequisitesByMainLesson(lesson.lessonId)
             if (corequisiteRelations.isNotEmpty()) {
                 for (coRel in corequisiteRelations) {
                     if (lessonsDao.getLessonState(coRel.corequisiteLessonId) != 2) {
@@ -84,6 +87,7 @@ class UtilityClass {
             if (preIsChecked && coIsChecked && preUnitIsChecked) {
                 lessonsDao.changeToPassed(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
+                goToMainActivity(context)
             }
         }
 
@@ -110,7 +114,7 @@ class UtilityClass {
 
             //check corequisites
             var coIsChecked = false
-            val corequisiteRelations = corequisitesDao.getCorequisites(lesson.lessonId)
+            val corequisiteRelations = corequisitesDao.getCorequisitesByMainLesson(lesson.lessonId)
             if (corequisiteRelations.isNotEmpty()) {
                 for (coRel in corequisiteRelations) {
                     if (lessonsDao.getLessonState(coRel.corequisiteLessonId) != 2 && lessonsDao.getLessonState(coRel.corequisiteLessonId) != 4) {
@@ -179,22 +183,25 @@ class UtilityClass {
             if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked) {
                 lessonsDao.changeToSelected(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
+                goToMainActivity(context)
             }
         }
 
-        fun addLessonToRemained(lesson: Lessons, context: Context) {
+        fun changePassedToRemained(lesson: Lessons, context: Context) {
             lessonsDao = MainDatabase.getDatabase(context).lessonsDao
             prerequisitesDao = MainDatabase.getDatabase(context).prerequisitesDao
 
             //check prerequisiteness
             val prerequisites = prerequisitesDao.getPrerequisitesByPreLesson(lesson.lessonId!!)
-            var checked = false
-            if (prerequisites.isEmpty()) {
-                checked = true
-            } else {
+            var checked = true
+            if (prerequisites.isNotEmpty()){
                 for (preRel in prerequisites) {
-                    if (lessonsDao.getLessonState(preRel.mainLessonId) != 2) {
-                        checked = true
+                    if (lessonsDao.getLessonState(preRel.mainLessonId) == 2) {
+                        checked = false
+                        Toast.makeText(context, "این درس پیش نیاز یک درس گذرانده است", Toast.LENGTH_SHORT).show()
+                    } else if (lessonsDao.getLessonState(preRel.mainLessonId) == 4) {
+                        checked = false
+                        Toast.makeText(context, "این درس پیش نیاز یک درس انتخاب شده است", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -203,10 +210,33 @@ class UtilityClass {
             if (checked) {
                 lessonsDao.changeToRemained(lesson.lessonId)
                 Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
+                goToMainActivity(context)
             }
         }
 
-        fun addToRemainedFromFailed() {}
+        fun changeSelectedToRemained(lesson: Lessons, context: Context) {
+            lessonsDao = MainDatabase.getDatabase(context).lessonsDao
+            corequisitesDao = MainDatabase.getDatabase(context).corequisitesDao
+
+            var checked = true
+            val corequisites = corequisitesDao.getCorequisitesByCoLesson(lesson.lessonId!!)
+            if (corequisites.isNotEmpty()) {
+                for (coRel in corequisites) {
+                    if (lessonsDao.getLessonState(coRel.mainLessonId) == 4) {
+                        checked = false
+                        Toast.makeText(context, "این درس هم نیاز یک درس انتخاب شده است", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            if (checked) {
+                lessonsDao.changeToRemained(lesson.lessonId)
+                Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
+                goToMainActivity(context)
+            }
+        }
+
+        fun changeFailedToRemained(lesson: Lessons, context: Context) {}
 
         fun addLessonToFailed(lesson: Lessons, context: Context) {
             lessonsDao = MainDatabase.getDatabase(context).lessonsDao
@@ -224,7 +254,14 @@ class UtilityClass {
             }
             lessonsDao.changeToFailed(lesson.lessonId)
             Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
+            goToMainActivity(context)
         }
-    }
+
+        private fun goToMainActivity(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+
+    }//end of companion object
 
 }

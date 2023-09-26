@@ -8,7 +8,9 @@ import com.example.courseselectionguide.data.tables.Corequisites
 interface CorequisitesDao : BaseDao<Corequisites> {
     //get corequisite relations
     @Query("select * from Corequisites where mainLessonId = :id")
-    fun getCorequisites(id: Int): List<Corequisites>
+    fun getCorequisitesByMainLesson(id: Int): List<Corequisites>
+    @Query("select * from Corequisites where corequisiteLessonId = :id")
+    fun getCorequisitesByCoLesson(id: Int): List<Corequisites>
 
     //insert
     @Query("insert into Corequisites(mainLessonId, corequisiteLessonId) values (:mainId, :coId)")

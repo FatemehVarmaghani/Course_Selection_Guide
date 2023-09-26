@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
@@ -83,11 +82,6 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         startActivity(intent)
     }
 
-    private fun goToMainActivity() {
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
-    }
-
     override fun onItemClicked(lesson: Lessons) {
         //lesson details
         val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
@@ -119,7 +113,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         prerequisitesDao = MainDatabase.getDatabase(requireContext()).prerequisitesDao
         corequisitesDao = MainDatabase.getDatabase(requireContext()).corequisitesDao
         val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
-        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId)
+        val corequisites = corequisitesDao.getCorequisitesByMainLesson(lesson.lessonId)
         var preString = ""
         var coString = ""
         if (prerequisites.isNotEmpty()) {
@@ -151,13 +145,13 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.remove_from_selected -> {
-                    UtilityClass.addLessonToRemained(lesson, requireContext())
-                    goToMainActivity()
+                    //lessonState changes from selected to remained
+                    UtilityClass.changeSelectedToRemained(lesson, requireContext())
                     true
                 }
                 R.id.add_selected_to_passed -> {
+                    //lessonState changes from selected to passed
                     UtilityClass.addLessonToPassed(lesson, requireContext())
-                    goToMainActivity()
                     true
                 }
                 else -> false

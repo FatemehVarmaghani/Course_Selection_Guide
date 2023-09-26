@@ -3,6 +3,7 @@ package com.example.courseselectionguide.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -84,7 +85,9 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         )
 
         //list of selected lessons
-        dataList = ArrayList(lessonsDao.getRecommendedLessons(getSemester()))
+        dataList = ArrayList(lessonsDao.getRecommendedLessons(getSemester(sharedPref.getInt(CURRENT_SEMESTER, 1))))
+        Log.v("sharedPref", sharedPref.getInt(CURRENT_SEMESTER, 1).toString())
+        Log.v("getSemester", getSemester(sharedPref.getInt(CURRENT_SEMESTER, 1)).toString())
 
         //show lessons on recyclerView
         UtilityClass.showRecyclerData(
@@ -96,17 +99,12 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         )
     }
 
-    private fun getSemester(): Int {
-        return when (val currentSemester = sharedPref.getInt(CURRENT_SEMESTER, 1)) {
-            1 - 7 -> currentSemester
-            8 - 12 -> 8
-            else -> 1
+    private fun getSemester(currentSemester: Int): Int {
+        return when (currentSemester) {
+            in 1..7 -> currentSemester
+            in 8 .. 12 -> 8
+            else -> -1
         }
-    }
-
-    private fun goToMainActivity() {
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
     }
 
     private fun getCurrentSemester(): String {
@@ -158,7 +156,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         prerequisitesDao = MainDatabase.getDatabase(requireContext()).prerequisitesDao
         corequisitesDao = MainDatabase.getDatabase(requireContext()).corequisitesDao
         val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
-        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId)
+        val corequisites = corequisitesDao.getCorequisitesByMainLesson(lesson.lessonId)
         var preString = ""
         var coString = ""
         if (prerequisites.isNotEmpty()) {
@@ -190,20 +188,20 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_recommended_to_selected -> {
+                    //change lessonState from remained or failed (recommended)  to passed
                     UtilityClass.addLessonToSelected(lesson, requireContext())
-                    goToMainActivity()
                     true
                 }
 
                 R.id.add_recommended_to_passed -> {
+                    //change lessonState from remained or failed (recommended) to passed
                     UtilityClass.addLessonToPassed(lesson, requireContext())
-                    goToMainActivity()
                     true
                 }
 
                 R.id.add_recommended_to_failed -> {
+                    //change lesson state from remained or failed (recommended) to passed
                     UtilityClass.addLessonToFailed(lesson, requireContext())
-                    goToMainActivity()
                     true
                 }
 

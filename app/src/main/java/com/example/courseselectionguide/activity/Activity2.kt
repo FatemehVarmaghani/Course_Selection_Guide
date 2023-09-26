@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import com.example.courseselectionguide.R
@@ -110,11 +109,6 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         }
     }
 
-    private fun goToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
     override fun onItemClicked(lesson: Lessons) {
         //lesson details
         val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
@@ -146,7 +140,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         prerequisitesDao = MainDatabase.getDatabase(this).prerequisitesDao
         corequisitesDao = MainDatabase.getDatabase(this).corequisitesDao
         val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
-        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId!!)
+        val corequisites = corequisitesDao.getCorequisitesByMainLesson(lesson.lessonId!!)
         var preString = ""
         var coString = ""
         if (prerequisites.isNotEmpty()) {
@@ -180,19 +174,16 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 when (it.itemId) {
                     R.id.add_manual_to_selected -> {
                         UtilityClass.addLessonToSelected(lesson, this)
-                        goToMainActivity()
                         true
                     }
 
                     R.id.add_manual_to_passed -> {
                         UtilityClass.addLessonToPassed(lesson, this)
-                        goToMainActivity()
                         true
                     }
 
                     R.id.add_manual_to_failed -> {
                         UtilityClass.addLessonToFailed(lesson, this)
-                        goToMainActivity()
                         true
                     }
 
@@ -201,8 +192,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else if (isPassed) {
                 when (it.itemId) {
                     R.id.remove_from_passed -> {
-                        UtilityClass.addLessonToRemained(lesson, this)
-                        goToMainActivity()
+                        UtilityClass.changePassedToRemained(lesson, this)
                         true
                     }
 
@@ -211,8 +201,6 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else {
                 when (it.itemId) {
                     R.id.remove_from_failed -> {
-                        UtilityClass.addLessonToRemained(lesson, this)
-                        goToMainActivity()
                         true
                     }
 

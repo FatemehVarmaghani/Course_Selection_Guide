@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     tools:context=".activity.DataEntryActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -19,11 +20,13 @@
             app:title="راهنمای انتخاب واحد" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="12dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
@@ -36,6 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
@@ -45,6 +49,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/number_picker_current_semester"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/number_picker_current_semester" />
+
         <NumberPicker
             android:id="@+id/number_picker_current_semester"
             android:layout_width="100dp"
@@ -53,6 +58,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
@@ -62,6 +68,7 @@
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/number_picker_current_semester" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_average"
             android:layout_width="match_parent"
@@ -80,6 +87,7 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
@@ -89,6 +97,7 @@
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_average" />
+
         <RadioGroup
             android:id="@+id/radio_group_failed_lesson"
             android:layout_width="match_parent"
@@ -116,6 +125,7 @@
                 android:textSize="17sp" />
 
         </RadioGroup>
+
         <TextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
@@ -125,6 +135,7 @@
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radio_group_failed_lesson" />
+
         <RadioGroup
             android:id="@+id/radio_group_last_semester"
             android:layout_width="match_parent"
@@ -152,6 +163,7 @@
                 android:textSize="17sp" />
 
         </RadioGroup>
+
         <Button
             android:id="@+id/btn_registration"
             android:layout_width="match_parent"
