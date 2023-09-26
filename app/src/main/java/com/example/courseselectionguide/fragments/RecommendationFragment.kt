@@ -142,6 +142,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                     true
                 }
                 R.id.add_recommended_to_failed -> {
+                    UtilityClass.addLessonToFailed(lesson, requireContext())
                     goToMainActivity()
                     true
                 }

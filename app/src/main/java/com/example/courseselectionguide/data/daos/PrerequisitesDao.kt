@@ -11,4 +11,8 @@ interface PrerequisitesDao : BaseDao<Prerequisites> {
     fun getPrerequisitesByMainLesson(id: Int): List<Prerequisites>
     @Query("select * from Prerequisites where prerequisiteLessonId = :id")
     fun getPrerequisitesByPreLesson(id: Int): List<Prerequisites>
+
+    //delete
+    @Query("delete from Prerequisites where prerequisiteLessonId = :id")
+    fun deleteByPreLesson(id: Int)
 }

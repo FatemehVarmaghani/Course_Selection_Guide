@@ -177,6 +177,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                     }
 
                     R.id.add_manual_to_failed -> {
+                        UtilityClass.addLessonToFailed(lesson, this)
                         goToMainActivity()
                         true
                     }

@@ -9,4 +9,8 @@ interface CorequisitesDao : BaseDao<Corequisites> {
     //get corequisite relations
     @Query("select * from Corequisites where mainLessonId = :id")
     fun getCorequisites(id: Int): List<Corequisites>
+
+    //insert
+    @Query("insert into Corequisites(mainLessonId, corequisiteLessonId) values (:mainId, :coId)")
+    fun insertCorRel(mainId: Int, coId: Int)
 }

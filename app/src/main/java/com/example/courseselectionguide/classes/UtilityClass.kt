@@ -189,7 +189,7 @@ class UtilityClass {
             //check prerequisiteness
             val prerequisites = prerequisitesDao.getPrerequisitesByPreLesson(lesson.lessonId!!)
             var checked = false
-            if (prerequisites.isNotEmpty()) {
+            if (prerequisites.isEmpty()) {
                 checked = true
             } else {
                 for (preRel in prerequisites) {
@@ -204,6 +204,26 @@ class UtilityClass {
                 lessonsDao.changeToRemained(lesson.lessonId)
                 Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        fun addToRemainedFromFailed() {}
+
+        fun addLessonToFailed(lesson: Lessons, context: Context) {
+            lessonsDao = MainDatabase.getDatabase(context).lessonsDao
+            prerequisitesDao = MainDatabase.getDatabase(context).prerequisitesDao
+            corequisitesDao = MainDatabase.getDatabase(context).corequisitesDao
+
+            //get prerequisite relations
+            val prerequisites = prerequisitesDao.getPrerequisitesByPreLesson(lesson.lessonId!!)
+            if (prerequisites.isNotEmpty()) {
+                //change pre to co
+                for (preRel in prerequisites) {
+                    corequisitesDao.insertCorRel(preRel.mainLessonId, preRel.prerequisiteLessonId)
+                }
+                prerequisitesDao.deleteByPreLesson(lesson.lessonId)
+            }
+            lessonsDao.changeToFailed(lesson.lessonId)
+            Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
         }
     }
 

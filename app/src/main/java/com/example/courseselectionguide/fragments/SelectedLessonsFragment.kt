@@ -125,6 +125,7 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.remove_from_selected -> {
+                    UtilityClass.addLessonToRemained(lesson, requireContext())
                     goToMainActivity()
                     true
                 }

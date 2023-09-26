@@ -54,6 +54,8 @@ interface LessonsDao: BaseDao<Lessons> {
     fun changeToSelected(id: Int)
     @Query("update Lessons set lessonState = 1 where lessonId = :id")
     fun changeToRemained(id: Int)
+    @Query("update Lessons set lessonState = 3 where lessonId = :id")
+    fun changeToFailed(id: Int)
 
     //get lesson values
     @Query("select lessonState from Lessons where lessonId = :id")
