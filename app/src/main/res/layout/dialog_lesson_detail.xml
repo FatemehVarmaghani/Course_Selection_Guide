@@ -101,6 +101,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/iran_sans_regular"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -116,12 +117,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
-            android:layout_marginEnd="55dp"
             android:id="@+id/info_dialog_corequisites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="55dp"
             android:fontFamily="@font/iran_sans_regular"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintEnd_toStartOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 

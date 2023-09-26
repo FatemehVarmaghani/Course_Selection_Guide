@@ -133,7 +133,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 coString += lessonsDao.getLesson(coRel.corequisiteLessonId).lessonName
                 coString += " "
             }
-            lessonInfoDialogBinding.infoDialogCorequisites.text = preString
+            lessonInfoDialogBinding.infoDialogCorequisites.text = coString
         } else {
             lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
         }

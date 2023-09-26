@@ -146,7 +146,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         prerequisitesDao = MainDatabase.getDatabase(this).prerequisitesDao
         corequisitesDao = MainDatabase.getDatabase(this).corequisitesDao
         val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
-        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId)
+        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId!!)
         var preString = ""
         var coString = ""
         if (prerequisites.isNotEmpty()) {
@@ -163,7 +163,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 coString += lessonsDao.getLesson(coRel.corequisiteLessonId).lessonName
                 coString += " "
             }
-            lessonInfoDialogBinding.infoDialogCorequisites.text = preString
+            lessonInfoDialogBinding.infoDialogCorequisites.text = coString
         } else {
             lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
         }
