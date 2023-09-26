@@ -201,6 +201,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else {
                 when (it.itemId) {
                     R.id.remove_from_failed -> {
+                        UtilityClass.changeFailedToRemained(lesson, this)
                         true
                     }
 

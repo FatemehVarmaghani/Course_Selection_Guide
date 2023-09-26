@@ -13,6 +13,7 @@ import com.example.courseselectionguide.data.daos.LessonOrientationDao
 import com.example.courseselectionguide.data.daos.LessonStateDao
 import com.example.courseselectionguide.data.daos.LessonTypeDao
 import com.example.courseselectionguide.data.daos.LessonsDao
+import com.example.courseselectionguide.data.daos.PrerequisiteHistoryDao
 import com.example.courseselectionguide.data.daos.PrerequisitesDao
 import com.example.courseselectionguide.data.daos.UserStateDao
 import com.example.courseselectionguide.data.databases.MainDatabase
@@ -45,6 +46,7 @@ lateinit var lessonStateDao: LessonStateDao
 lateinit var prerequisitesDao: PrerequisitesDao
 lateinit var corequisitesDao: CorequisitesDao
 lateinit var userStateDao: UserStateDao
+lateinit var prerequisiteHistoryDao: PrerequisiteHistoryDao
 
 class MainActivity : AppCompatActivity() {
 

@@ -9,6 +9,7 @@ import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
+import com.example.courseselectionguide.activity.prerequisiteHistoryDao
 import com.example.courseselectionguide.activity.prerequisitesDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.data.databases.MainDatabase
@@ -236,12 +237,32 @@ class UtilityClass {
             }
         }
 
-        fun changeFailedToRemained(lesson: Lessons, context: Context) {}
+        fun changeFailedToRemained(lesson: Lessons, context: Context) {
+            lessonsDao = MainDatabase.getDatabase(context).lessonsDao
+            prerequisitesDao = MainDatabase.getDatabase(context).prerequisitesDao
+            corequisitesDao = MainDatabase.getDatabase(context).corequisitesDao
+            prerequisiteHistoryDao = MainDatabase.getDatabase(context).prerequisiteHistoryDao
+
+            //check prerequisite history
+            val prerequisiteHistory = prerequisiteHistoryDao.getPreHistoryByPreId(lesson.lessonId!!)
+            if (prerequisiteHistory.isNotEmpty()) {
+                for (rel in prerequisiteHistory) {
+                    prerequisitesDao.insertPreRel(rel.mainLessonId, rel.prerequisiteLessonId)
+                }
+                corequisitesDao.deleteByCoLesson(lesson.lessonId)
+                prerequisiteHistoryDao.deleteByPreLesson(lesson.lessonId)
+            }
+
+            //change lesson state
+            lessonsDao.changeToRemained(lesson.lessonId)
+            goToMainActivity(context)
+        }
 
         fun addLessonToFailed(lesson: Lessons, context: Context) {
             lessonsDao = MainDatabase.getDatabase(context).lessonsDao
             prerequisitesDao = MainDatabase.getDatabase(context).prerequisitesDao
             corequisitesDao = MainDatabase.getDatabase(context).corequisitesDao
+            prerequisiteHistoryDao = MainDatabase.getDatabase(context).prerequisiteHistoryDao
 
             //get prerequisite relations
             val prerequisites = prerequisitesDao.getPrerequisitesByPreLesson(lesson.lessonId!!)
@@ -249,8 +270,10 @@ class UtilityClass {
                 //change pre to co
                 for (preRel in prerequisites) {
                     corequisitesDao.insertCorRel(preRel.mainLessonId, preRel.prerequisiteLessonId)
+                    prerequisiteHistoryDao.insertPreHistoryRel(preRel.mainLessonId, preRel.prerequisiteLessonId)
                 }
                 prerequisitesDao.deleteByPreLesson(lesson.lessonId)
+                Toast.makeText(context, "done!", Toast.LENGTH_SHORT).show()
             }
             lessonsDao.changeToFailed(lesson.lessonId)
             Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()

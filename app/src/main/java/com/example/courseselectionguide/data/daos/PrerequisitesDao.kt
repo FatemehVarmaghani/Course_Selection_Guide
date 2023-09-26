@@ -15,4 +15,8 @@ interface PrerequisitesDao : BaseDao<Prerequisites> {
     //delete
     @Query("delete from Prerequisites where prerequisiteLessonId = :id")
     fun deleteByPreLesson(id: Int)
+
+    //insert
+    @Query("insert into Prerequisites(mainLessonId, prerequisiteLessonId) values (:mainId, :preId)")
+    fun insertPreRel(mainId: Int, preId: Int)
 }
