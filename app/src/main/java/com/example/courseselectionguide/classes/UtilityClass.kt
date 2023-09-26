@@ -2,15 +2,19 @@ package com.example.courseselectionguide.classes
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.activity.MainActivity
+import com.example.courseselectionguide.activity.PRIMITIVE_DATA
+import com.example.courseselectionguide.activity.USER_STATE
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisiteHistoryDao
 import com.example.courseselectionguide.activity.prerequisitesDao
+import com.example.courseselectionguide.activity.sharedPref
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.data.databases.MainDatabase
 import com.example.courseselectionguide.data.tables.Lessons
@@ -179,8 +183,17 @@ class UtilityClass {
                 }
             }
 
+            //checking for maximum units permitted:
+            var isWithinRange = true
+            val newUnitSum = lessonsDao.countUnitsSumByState(4) + lesson.unitNumber
+            Log.v("newUnitSum", newUnitSum.toString())
+            if (newUnitSum > getMaxUnits(context)) {
+                isWithinRange = false
+                Toast.makeText(context, "جمع واحدها از سقف بیشتر می شود", Toast.LENGTH_SHORT).show()
+            }
+
             //after checking all conditions, change it to passed:
-            if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked) {
+            if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked && isWithinRange) {
                 lessonsDao.changeToSelected(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
             }
@@ -274,10 +287,16 @@ class UtilityClass {
             Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
         }
 
-//        fun goToMainActivity(context: Context) {
-//            val intent = Intent(context, MainActivity::class.java)
-//            context.startActivity(intent)
-//        }
+        private fun getMaxUnits(context: Context): Int {
+            sharedPref = context.getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+            return when (sharedPref.getInt(USER_STATE, 2)) {
+                1 -> 24
+                2 -> 20
+                3 -> 25
+                4 -> 14
+                else -> -1
+            }
+        }
 
     }//end of companion object
 

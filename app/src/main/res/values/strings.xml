@@ -59,5 +59,6 @@
     <string name="remove_from_failed">حذف درس از لیست رد/حذف شده</string>
     <string name="conditional">مشروطی</string>
     <string name="add_recommended_to_passed">افزودن لیست به دروس گذرانده</string>
+    <string name="add_selected_list_to_passed">افزودن لیست به دروس گذرانده</string>
 
 </resources>

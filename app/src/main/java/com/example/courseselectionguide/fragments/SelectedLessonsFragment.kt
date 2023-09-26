@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.activity.PRIMITIVE_DATA
+import com.example.courseselectionguide.activity.USER_STATE
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
@@ -56,7 +57,14 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                         updateRecycler()
                         updateTextViews()
                     }
-
+                    true
+                }
+                R.id.add_selected_list_to_passed -> {
+                    for (eachLesson in dataList) {
+                        UtilityClass.addLessonToPassed(eachLesson, requireContext())
+                    }
+                    updateRecycler()
+                    updateTextViews()
                     true
                 }
                 else -> false

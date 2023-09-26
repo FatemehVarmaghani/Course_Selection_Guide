@@ -40,6 +40,3 @@ data class Lessons(
     val lessonState: Int,
     val isFixed: Boolean
 )
-
-//recommended semester for general islamic is not needed!
-//just show only one of this type every semester

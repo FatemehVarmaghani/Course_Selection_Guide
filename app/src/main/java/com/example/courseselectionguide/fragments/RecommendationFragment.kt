@@ -196,18 +196,21 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                 R.id.add_recommended_to_selected -> {
                     //change lessonState from remained or failed (recommended)  to passed
                     UtilityClass.addLessonToSelected(lesson, requireContext())
+                    loadRecommendedList(dataList[0].recommendedSemester)
                     true
                 }
 
                 R.id.add_recommended_to_passed -> {
                     //change lessonState from remained or failed (recommended) to passed
                     UtilityClass.addLessonToPassed(lesson, requireContext())
+                    loadRecommendedList(dataList[0].recommendedSemester)
                     true
                 }
 
                 R.id.add_recommended_to_failed -> {
                     //change lesson state from remained or failed (recommended) to passed
                     UtilityClass.addLessonToFailed(lesson, requireContext())
+                    loadRecommendedList(dataList[0].recommendedSemester)
                     true
                 }
 
