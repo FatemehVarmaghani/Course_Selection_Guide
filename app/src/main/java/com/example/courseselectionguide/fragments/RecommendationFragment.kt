@@ -1,5 +1,6 @@
 package com.example.courseselectionguide.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,10 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.CURRENT_SEMESTER
 import com.example.courseselectionguide.activity.MainActivity
+import com.example.courseselectionguide.activity.PRIMITIVE_DATA
+import com.example.courseselectionguide.activity.USER_STATE
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
 import com.example.courseselectionguide.activity.sharedPref
+import com.example.courseselectionguide.activity.userStateDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.databases.MainDatabase
@@ -40,6 +44,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
 
         //dao
         lessonsDao = MainDatabase.getDatabase(requireContext()).lessonsDao
+        userStateDao = MainDatabase.getDatabase(requireContext()).userStateDao
 
         //inflating menu
         binding.toolbarRecommended.inflateMenu(R.menu.menu_recommended_fragment)
@@ -48,16 +53,35 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
         binding.toolbarRecommended.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.add_recommended_list_to_selected -> {
-                    Toast.makeText(requireContext(), "add recommended list to selected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "add recommended list to selected",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     true
                 }
+
                 R.id.show_new_recommended_list -> {
-                    Toast.makeText(requireContext(), "show new recommended list", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "show new recommended list",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     true
                 }
+
                 else -> false
             }
         }
+
+        //data for textViews
+        sharedPref = requireContext().getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+        binding.txtRecommendedCurrentSemester.text = getCurrentSemester()
+        binding.txtRecommendationUserState.text = userStateDao.getStateName(
+            sharedPref.getInt(
+                USER_STATE, 2
+            )
+        )
 
         //list of selected lessons
         dataList = ArrayList(lessonsDao.getRecommendedLessons(getSemester()))
@@ -73,7 +97,7 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
     }
 
     private fun getSemester(): Int {
-        return when(val currentSemester = sharedPref.getInt(CURRENT_SEMESTER, 1)) {
+        return when (val currentSemester = sharedPref.getInt(CURRENT_SEMESTER, 1)) {
             1 - 7 -> currentSemester
             8 - 12 -> 8
             else -> 1
@@ -83,6 +107,24 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
     private fun goToMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun getCurrentSemester(): String {
+        return when (sharedPref.getInt(CURRENT_SEMESTER, 1)) {
+            1 -> "یک"
+            2 -> "دو"
+            3 -> "سه"
+            4 -> "چهار"
+            5 -> "پنج"
+            6 -> "شش"
+            7 -> "هفت"
+            8 -> "هشت"
+            9 -> "نه"
+            10 -> "ده"
+            11 -> "یازده"
+            12 -> "دوازده"
+            else -> ""
+        }
     }
 
     override fun onItemClicked(lesson: Lessons) {
@@ -152,16 +194,19 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
                     goToMainActivity()
                     true
                 }
+
                 R.id.add_recommended_to_passed -> {
                     UtilityClass.addLessonToPassed(lesson, requireContext())
                     goToMainActivity()
                     true
                 }
+
                 R.id.add_recommended_to_failed -> {
                     UtilityClass.addLessonToFailed(lesson, requireContext())
                     goToMainActivity()
                     true
                 }
+
                 else -> false
             }
         }

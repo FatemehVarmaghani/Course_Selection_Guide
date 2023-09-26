@@ -1,5 +1,6 @@
 package com.example.courseselectionguide.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +13,11 @@ import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
 import com.example.courseselectionguide.activity.MainActivity
+import com.example.courseselectionguide.activity.PRIMITIVE_DATA
 import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
+import com.example.courseselectionguide.activity.sharedPref
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
 import com.example.courseselectionguide.data.databases.MainDatabase
@@ -56,6 +59,14 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
                 else -> false
             }
         }
+
+        //data for textViews
+        sharedPref = requireContext().getSharedPreferences(PRIMITIVE_DATA, Context.MODE_PRIVATE)
+        val allSelectedNumber = lessonsDao.getSelectedLessons().size
+        val theoSelectedNumber = lessonsDao.countTheoreticalSelected()
+        binding.txtSelectedAllUnitsSum.text = allSelectedNumber.toString()
+        binding.txtSelectedTheoreticalUnitsSum.text = theoSelectedNumber.toString()
+        binding.txtSelectedPracticalUnitsSum.text = (allSelectedNumber - theoSelectedNumber).toString()
 
         //list of selected lessons
         dataList = ArrayList(lessonsDao.getSelectedLessons())

@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/iran_sans_regular"
-                    android:text="وضعیت شما در ترم پیش"
+                    android:text="وضعیت شما"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -101,7 +101,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txt_selected_all_units_sum"
+                    android:id="@+id/txt_recommendation_user_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"

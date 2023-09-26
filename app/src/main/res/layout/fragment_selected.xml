@@ -68,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/iran_sans_regular"
-                    android:text="20"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -104,7 +103,6 @@
                     android:layout_gravity="start"
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/iran_sans_regular"
-                    android:text="18"
                     android:textSize="15sp" />
 
                 <TextView
@@ -133,7 +131,6 @@
                     android:layout_gravity="end"
                     android:layout_marginStart="6dp"
                     android:fontFamily="@font/iran_sans_regular"
-                    android:text="2"
                     android:textSize="15sp" />
 
             </LinearLayout>
