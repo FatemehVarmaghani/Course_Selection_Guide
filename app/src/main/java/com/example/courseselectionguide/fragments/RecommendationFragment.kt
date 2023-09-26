@@ -12,7 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.CURRENT_SEMESTER
 import com.example.courseselectionguide.activity.MainActivity
+import com.example.courseselectionguide.activity.corequisitesDao
 import com.example.courseselectionguide.activity.lessonsDao
+import com.example.courseselectionguide.activity.prerequisitesDao
 import com.example.courseselectionguide.activity.sharedPref
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
@@ -108,19 +110,33 @@ class RecommendationFragment : Fragment(), AdapterLessons.ItemEvents {
             lessonInfoDialogBinding.infoDialogPracticalUnits.text =
                 lesson.unitNumber.toInt().toString()
         }
-        //checking pre and co requisites:
-//        if (lesson.listOfPrerequisites == null) {
-//            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
-//        } else {
-//            lessonInfoDialogBinding.infoDialogPrerequisites.text =
-//                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
-//        }
-//        if (lesson.listOfCorequisites == null) {
-//            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
-//        } else {
-//            lessonInfoDialogBinding.infoDialogCorequisites.text =
-//                lesson.listOfCorequisites.toString() // extract from database
-//        }
+
+        //pre and co =
+        lessonsDao = MainDatabase.getDatabase(requireContext()).lessonsDao
+        prerequisitesDao = MainDatabase.getDatabase(requireContext()).prerequisitesDao
+        corequisitesDao = MainDatabase.getDatabase(requireContext()).corequisitesDao
+        val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
+        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId)
+        var preString = ""
+        var coString = ""
+        if (prerequisites.isNotEmpty()) {
+            for (preRel in prerequisites) {
+                preString += lessonsDao.getLesson(preRel.prerequisiteLessonId).lessonName
+                preString += " "
+            }
+            lessonInfoDialogBinding.infoDialogPrerequisites.text = preString
+        } else {
+            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
+        }
+        if (corequisites.isNotEmpty()) {
+            for (coRel in corequisites) {
+                coString += lessonsDao.getLesson(coRel.corequisiteLessonId).lessonName
+                coString += " "
+            }
+            lessonInfoDialogBinding.infoDialogCorequisites.text = preString
+        } else {
+            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
+        }
 
         //create & show dialog
         val lessonInfoDialog = AlertDialog.Builder(requireContext())

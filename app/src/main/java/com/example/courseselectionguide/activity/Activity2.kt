@@ -140,19 +140,33 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             lessonInfoDialogBinding.infoDialogPracticalUnits.text =
                 lesson.unitNumber.toString()
         }
-        //checking pre and co requisites:
-//        if (lesson.listOfPrerequisites == null) {
-//            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
-//        } else {
-//            lessonInfoDialogBinding.infoDialogPrerequisites.text =
-//                lesson.listOfPrerequisites.toString() //extract from database (don't forget forEach)
-//        }
-//        if (lesson.listOfCorequisites == null) {
-//            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
-//        } else {
-//            lessonInfoDialogBinding.infoDialogCorequisites.text =
-//                lesson.listOfCorequisites.toString() // extract from database
-//        }
+
+        //pre and co =
+        lessonsDao = MainDatabase.getDatabase(this).lessonsDao
+        prerequisitesDao = MainDatabase.getDatabase(this).prerequisitesDao
+        corequisitesDao = MainDatabase.getDatabase(this).corequisitesDao
+        val prerequisites = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
+        val corequisites = corequisitesDao.getCorequisites(lesson.lessonId)
+        var preString = ""
+        var coString = ""
+        if (prerequisites.isNotEmpty()) {
+            for (preRel in prerequisites) {
+                preString += lessonsDao.getLesson(preRel.prerequisiteLessonId).lessonName
+                preString += " "
+            }
+            lessonInfoDialogBinding.infoDialogPrerequisites.text = preString
+        } else {
+            lessonInfoDialogBinding.infoDialogPrerequisites.text = "ندارد"
+        }
+        if (corequisites.isNotEmpty()) {
+            for (coRel in corequisites) {
+                coString += lessonsDao.getLesson(coRel.corequisiteLessonId).lessonName
+                coString += " "
+            }
+            lessonInfoDialogBinding.infoDialogCorequisites.text = preString
+        } else {
+            lessonInfoDialogBinding.infoDialogCorequisites.text = "ندارد"
+        }
 
         //create & show dialog
         val lessonInfoDialog = AlertDialog.Builder(this)
