@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.courseselectionguide.R
 import com.example.courseselectionguide.activity.Activity2
+import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.adapter.AdapterLessons
 import com.example.courseselectionguide.classes.UtilityClass
@@ -69,6 +70,11 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         startActivity(intent)
     }
 
+    private fun goToMainActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onItemClicked(lesson: Lessons) {
         //lesson details
         val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
@@ -119,11 +125,12 @@ class SelectedLessonsFragment : Fragment(), AdapterLessons.ItemEvents {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.remove_from_selected -> {
-                    Toast.makeText(requireContext(), "remove from selected", Toast.LENGTH_SHORT).show()
+                    goToMainActivity()
                     true
                 }
                 R.id.add_selected_to_passed -> {
                     UtilityClass.addLessonToPassed(lesson, requireContext())
+                    goToMainActivity()
                     true
                 }
                 else -> false

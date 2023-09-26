@@ -1,12 +1,10 @@
 package com.example.courseselectionguide.classes
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.courseselectionguide.activity.corequisitesDao
-import com.example.courseselectionguide.activity.lessonTypeDao
 import com.example.courseselectionguide.activity.lessonsDao
 import com.example.courseselectionguide.activity.prerequisitesDao
 import com.example.courseselectionguide.adapter.AdapterLessons
@@ -36,7 +34,7 @@ class UtilityClass {
 
             //check prerequisite
             var preIsChecked = false
-            val prerequisiteRelations = prerequisitesDao.getPrerequisites(lesson.lessonId!!)
+            val prerequisiteRelations = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
             if (prerequisiteRelations.isNotEmpty()) {
                 for (preRel in prerequisiteRelations) {
                     if (lessonsDao.getLessonState(preRel.prerequisiteLessonId) != 2) {
@@ -96,7 +94,7 @@ class UtilityClass {
 
             //check prerequisite
             var preIsChecked = false
-            val prerequisiteRelations = prerequisitesDao.getPrerequisites(lesson.lessonId!!)
+            val prerequisiteRelations = prerequisitesDao.getPrerequisitesByMainLesson(lesson.lessonId!!)
             if (prerequisiteRelations.isNotEmpty()) {
                 for (preRel in prerequisiteRelations) {
                     if (lessonsDao.getLessonState(preRel.prerequisiteLessonId) != 2) {
@@ -181,6 +179,30 @@ class UtilityClass {
             if (preIsChecked && coIsChecked && islamicIsChecked && isFixed && preUnitIsChecked) {
                 lessonsDao.changeToSelected(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        fun addLessonToRemained(lesson: Lessons, context: Context) {
+            lessonsDao = MainDatabase.getDatabase(context).lessonsDao
+            prerequisitesDao = MainDatabase.getDatabase(context).prerequisitesDao
+
+            //check prerequisiteness
+            val prerequisites = prerequisitesDao.getPrerequisitesByPreLesson(lesson.lessonId!!)
+            var checked = false
+            if (prerequisites.isNotEmpty()) {
+                checked = true
+            } else {
+                for (preRel in prerequisites) {
+                    if (lessonsDao.getLessonState(preRel.mainLessonId) != 2) {
+                        checked = true
+                    }
+                }
+            }
+
+            //here we go
+            if (checked) {
+                lessonsDao.changeToRemained(lesson.lessonId)
+                Toast.makeText(context, "برداشته شد", Toast.LENGTH_SHORT).show()
             }
         }
     }

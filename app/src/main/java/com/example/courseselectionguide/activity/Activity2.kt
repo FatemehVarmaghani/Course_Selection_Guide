@@ -1,5 +1,6 @@
 package com.example.courseselectionguide.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -109,6 +110,11 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         }
     }
 
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onItemClicked(lesson: Lessons) {
         //lesson details
         val lessonInfoDialogBinding = DialogLessonDetailBinding.inflate(layoutInflater)
@@ -160,15 +166,18 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 when (it.itemId) {
                     R.id.add_manual_to_selected -> {
                         UtilityClass.addLessonToSelected(lesson, this)
+                        goToMainActivity()
                         true
                     }
 
                     R.id.add_manual_to_passed -> {
                         UtilityClass.addLessonToPassed(lesson, this)
+                        goToMainActivity()
                         true
                     }
 
                     R.id.add_manual_to_failed -> {
+                        goToMainActivity()
                         true
                     }
 
@@ -177,7 +186,8 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else if (isPassed) {
                 when (it.itemId) {
                     R.id.remove_from_passed -> {
-                        Toast.makeText(this, "remove from passed", Toast.LENGTH_SHORT).show()
+                        UtilityClass.addLessonToRemained(lesson, this)
+                        goToMainActivity()
                         true
                     }
 
@@ -186,7 +196,8 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
             } else {
                 when (it.itemId) {
                     R.id.remove_from_failed -> {
-                        Toast.makeText(this, "remove from failed", Toast.LENGTH_SHORT).show()
+                        UtilityClass.addLessonToRemained(lesson, this)
+                        goToMainActivity()
                         true
                     }
 
