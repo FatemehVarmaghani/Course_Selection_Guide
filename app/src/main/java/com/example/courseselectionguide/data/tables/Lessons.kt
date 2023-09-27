@@ -35,7 +35,6 @@ data class Lessons(
     val unitNumber: Int,
     val isTheoretical: Boolean,
     val lessonOrientationId: Int? = null,
-    val neededPassedUnitsSum: Int? = null,
     val recommendedSemester: Int,
     val lessonState: Int,
     val isFixed: Boolean

@@ -607,7 +607,6 @@ class MainActivity : AppCompatActivity() {
                     isTheoretical = false,
                     recommendedSemester = 8,
                     lessonState = 1,
-                    neededPassedUnitsSum = 100,
                     isFixed = true
                 ),
                 Lessons(
@@ -617,7 +616,6 @@ class MainActivity : AppCompatActivity() {
                     isTheoretical = false,
                     recommendedSemester = 8,
                     lessonState = 1,
-                    neededPassedUnitsSum = 80,
                     isFixed = true
                 ),
                 Lessons(

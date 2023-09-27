@@ -7,7 +7,5 @@ import androidx.room.PrimaryKey
 data class LessonType (
     @PrimaryKey(autoGenerate = true)
     val typeId: Int? = null,
-    val typeName: String,
-    val allowedPrUnitsSum: Int? = null,
-    val allowedTeUnitsSum: Int? = null
+    val typeName: String
 )
