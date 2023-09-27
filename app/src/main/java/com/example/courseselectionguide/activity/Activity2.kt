@@ -51,18 +51,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         isPassed = intent.getBooleanExtra("isPassed", true)
         lessonsDao = MainDatabase.getDatabase(this).lessonsDao
 
-        // check booleans: show the related list and item menu
-        if (isManual) {
-            dataList = ArrayList(lessonsDao.getRemainedLessons())
-            menuId = R.menu.menu_item_manual_select
-        } else if (isPassed) {
-            dataList = ArrayList(lessonsDao.getPassedLessons())
-            menuId = R.menu.menu_item_passed_lesson
-        } else {
-            dataList = ArrayList(lessonsDao.getFailedLessons())
-            menuId = R.menu.menu_item_failed_lesson
-        }
-        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this, menuId)
+        showRelatedList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,6 +75,21 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
         })
 
         return true
+    }
+
+    private fun showRelatedList() {
+        // check booleans: show the related list and item menu
+        if (isManual) {
+            dataList = ArrayList(lessonsDao.getRemainedLessons())
+            menuId = R.menu.menu_item_manual_select
+        } else if (isPassed) {
+            dataList = ArrayList(lessonsDao.getPassedLessons())
+            menuId = R.menu.menu_item_passed_lesson
+        } else {
+            dataList = ArrayList(lessonsDao.getFailedLessons())
+            menuId = R.menu.menu_item_failed_lesson
+        }
+        UtilityClass.showRecyclerData(binding.recyclerManual, dataList, this, this, menuId)
     }
 
     private fun searchOnDataBase(searchText: String?) {
@@ -174,16 +178,19 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 when (it.itemId) {
                     R.id.add_manual_to_selected -> {
                         UtilityClass.addLessonToSelected(lesson, this)
+                        showRelatedList()
                         true
                     }
 
                     R.id.add_manual_to_passed -> {
                         UtilityClass.addLessonToPassed(lesson, this)
+                        showRelatedList()
                         true
                     }
 
                     R.id.add_manual_to_failed -> {
                         UtilityClass.addLessonToFailed(lesson, this)
+                        showRelatedList()
                         true
                     }
 
@@ -193,6 +200,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 when (it.itemId) {
                     R.id.remove_from_passed -> {
                         UtilityClass.changePassedToRemained(lesson, this)
+                        showRelatedList()
                         true
                     }
 
@@ -202,6 +210,7 @@ class Activity2 : AppCompatActivity(), AdapterLessons.ItemEvents, FilterDialog.F
                 when (it.itemId) {
                     R.id.remove_from_failed -> {
                         UtilityClass.changeFailedToRemained(lesson, this)
+                        showRelatedList()
                         true
                     }
 

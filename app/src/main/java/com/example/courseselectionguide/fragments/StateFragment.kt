@@ -131,11 +131,11 @@ class StateFragment : Fragment(), EditDialog.EditInfoEvent {
     }
 
     private fun countPassedUnits(): Int {
-        return lessonsDao.getPassedLessons().size
+        return lessonsDao.countUnitsSumByState(2)
     }
 
     private fun countFailedUnits(): Int {
-        return lessonsDao.getFailedLessons().size
+        return lessonsDao.countUnitsSumByState(3)
     }
 
     private fun getCurrentSemester(): String {

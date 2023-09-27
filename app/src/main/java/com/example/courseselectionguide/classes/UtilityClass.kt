@@ -1,13 +1,10 @@
 package com.example.courseselectionguide.classes
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.courseselectionguide.activity.Activity2
-import com.example.courseselectionguide.activity.MainActivity
 import com.example.courseselectionguide.activity.PRIMITIVE_DATA
 import com.example.courseselectionguide.activity.USER_STATE
 import com.example.courseselectionguide.activity.corequisitesDao
@@ -76,20 +73,42 @@ class UtilityClass {
             var preUnitIsChecked = true
             if (lesson.lessonId == 49) {
                 //for project
-                if (lessonsDao.getPassedLessons().size < 100) {
+                if (lessonsDao.countUnitsSumByState(2) < 100) {
                     preUnitIsChecked = false
                     Toast.makeText(context, "صد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
                 }
             } else if (lesson.lessonId == 50) {
                 //for internship
-                if (lessonsDao.getPassedLessons().size < 80) {
+                if (lessonsDao.countUnitsSumByState(2) < 80) {
                     preUnitIsChecked = false
                     Toast.makeText(context, "هشتاد واحد پاس نشده!", Toast.LENGTH_SHORT).show()
                 }
             }
 
+            //if not fixed: orin and type conditions
+            var isFixed = false
+            if (lesson.isFixed) {
+                isFixed = true
+            } else if (lesson.lessonTypeId == 1) {
+                if (lessonsDao.countPassedLessonsByOrientation(lesson.lessonOrientationId!!) >= 1) {
+                    isFixed = false
+                    Toast.makeText(context, "درس مشابه پاس شده", Toast.LENGTH_SHORT).show()
+                } else {
+                    isFixed = true
+                }
+            } else if (lesson.lessonTypeId == 7) {
+                if (lessonsDao.countPassedOrSelectedPracticalLessonsByType(lesson.lessonTypeId) >= 2) {
+                    isFixed = false
+                    Toast.makeText(context, "بیشتر از دو واحد اختیاری عملی لازم نیست", Toast.LENGTH_SHORT).show()
+                } else {
+                    isFixed = true
+                }
+            } else {
+                isFixed = true
+            }
+
             //after checking all conditions, change it to passed:
-            if (preIsChecked && coIsChecked && preUnitIsChecked) {
+            if (preIsChecked && coIsChecked && preUnitIsChecked && isFixed) {
                 lessonsDao.changeToPassed(lesson.lessonId)
                 Toast.makeText(context, "اضافه شد", Toast.LENGTH_SHORT).show()
             }

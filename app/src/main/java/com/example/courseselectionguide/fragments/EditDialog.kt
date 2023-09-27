@@ -26,7 +26,9 @@ class EditDialog(private val editInfoEvent: EditInfoEvent) : DialogFragment() {
 
         //show data on dialog
         binding.edtTxtCurrentSemester.setText(requireArguments().getInt(CURRENT_SEMESTER).toString())
-        binding.edtTxtAverage.setText(requireArguments().getFloat(AVERAGE).toString())
+        if (requireArguments().getInt(CURRENT_SEMESTER) != 1) {
+            binding.edtTxtAverage.setText(requireArguments().getFloat(AVERAGE).toString())
+        }
         if (requireArguments().getBoolean(HAS_FAILED))
             binding.dialogRFailedLessonYes.isChecked = true
         else
